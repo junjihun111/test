@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<!-- main.do 요청 ajax_request.jsp -->
+	
+	<context:component-scan base-package="com.mydomain.controller"/>
+	
+	
+	<mvc:annotation-driven/>
+	<!-- <mvc:view-controller path="/main.do" view-name="/WEB-INF/view/ajax/ajax_request.jsp"/>-->
+	<!-- <mvc:view-controller path="/main.do" view-name="/WEB-INF/view/view/advertisement.jsp"/> --> 
+	<mvc:view-controller path="/main.do" view-name="Board/main.do"/>
+	<mvc:view-controller path="/mainSuccess.do" view-name="Board/mainSuccess.do"/>
+	<!-- <mvc:view-controller path="/register_form.do" view-name="product/register_form.tiles"/>-->	
+	<mvc:view-controller path="/join_form.do" view-name="advertisement/join_form.tiles"/>
+	<mvc:view-controller path="/register_form.do" view-name="shopping/register_form.tiles"/>
+	<!-- <mvc:view-controller path="/board.do" view-name="Board/publicboard.tiles"/>-->
+	<mvc:view-controller path="/insert.do" view-name="Board/insert.tiles"/>
+	<mvc:view-controller path="/BoardList.do" view-name="Board/BoardList.do"/> <!-- 컨트롤러로 넘길시 -->
+	<mvc:view-controller path="/insertSuccess.do" view-name="Board/insertSuccess.do"/> 
+	<mvc:view-controller path="/delete.do" view-name="Board/delete.do"/> <!-- 컨트롤러로 넘길시 -->
+	<mvc:view-controller path="/update.do" view-name="Board/update.do"/> <!-- 컨트롤러로 넘길시 -->
+	<mvc:view-controller path="/updateSuccess.do" view-name="Board/updateSuccess.do"/>
+	<mvc:view-controller path="/insertList.do" view-name="Board/insertList.do"/>
+	<mvc:view-controller path="/mainguest.do" view-name="mainguest.tiles"/> 
+	<mvc:view-controller path="/updateajax.do" view-name="Board/updateajax.do"/> 
+	
+	<!-- 채환이꺼 -->
+	<mvc:view-controller path="/addItem_form.do" view-name="itemAdd.tiles"/>
+	<mvc:view-controller path="/viewItem.do" view-name="viewItem.tiles"/>
+	<mvc:view-controller path="/ViewItemPage.do" view-name="viewItemOne.tiles"/>
+	
+	<mvc:view-controller path="/shopping.do" view-name="Board/index.tiles"/>
+		 
+	  
+	  
+	  
+	  
+	 <bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+		<!-- 매개변수로 list 를 받는다. -->
+			<list>
+				<value>/WEB-INF/config/tiles/tiles-defs.xml</value>	
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" p:order="1"/>
+	<!-- 이게 있다면 tile 설정파일에 가서 본다.  -->
+	
+	<bean name="internalViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="2"/><!--  p:prefix="/WEB-INF/view" -->
+	
+	<bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	
+</beans>

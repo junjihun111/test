@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ColorMapper">
+<select id="selectColorList" resultType="Color">
+select colorName, product_no productNo,product_size productSize,productFrame from productoption
+</select>
+<insert id="insertOption" parameterType="Color">
+insert into productoption values(#{colorName},#{productNo},#{productSize},#{productFrame})
+</insert>
+<insert id="insertOptionColor" parameterType="Color">
+insert into productoption(colorName,product_no,productFrame) values(#{colorName},#{productNo},#{productFrame})
+</insert>
+<insert id="insertOptionDrunk" parameterType="Color">
+insert into productoption(product_no,productFrame) values(#{productNo},#{productFrame})
+</insert>
+</mapper>

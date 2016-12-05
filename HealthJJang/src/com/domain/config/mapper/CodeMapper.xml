@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="code">
+<!-- 코드로 조회 -->
+<select id="selectCode" resultType="Code" parameterType="String" >
+select code,codeOption,codeValue,explagin
+from codetable
+where code = #{code}
+</select>
+<select id="selectCodeList" resultType="Code" >
+select code,codeOption,codeValue,explagin
+from codetable
+</select>
+</mapper>

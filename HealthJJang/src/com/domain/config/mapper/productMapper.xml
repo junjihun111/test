@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+<sql id="selectProduct">
+select product_no productNo,product_name productName,product_price productPrice,code productCode,product_amount productAmount, product_explain productExplain,image_Name imageName
+from product
+</sql>
+<insert id="insertProductItem" parameterType="Product">
+insert into product(product_no,product_name,product_price,product_amount,product_explain,code,image_name) values(#{productNo},#{productName},#{productPrice},#{productCode},#{productAmount},#{productExplain},#{imageName})
+
+
+</insert>
+<insert id="insertProductWear" parameterType="Product">
+insert into product values(#{productNo},#{productName},#{productPrice},#{productCode},#{productAmount},#{productExplain})
+
+</insert>
+<insert id="insertProduct" parameterType="Product">
+insert into product values(#{productNo},#{productName},#{productPrice},#{productAmount},#{productExplain},#{productCode},#{imageName})
+</insert>
+<update id="updateProduct" parameterType="Product">
+update product
+set product_name = #{productName},
+	product_price = #{productPrice},
+	code = #{productCode},
+	product_amount = #{productAmount},
+	product_explain = #{productExplain}
+where product_no = #{productNo} 
+</update>
+<update id="updateProductItem">
+update product
+set product_name = #{productName},
+	product_price = #{productPrice},
+	code = #{productCode},
+	 
+	product_amount = #{productAmount},
+	product_explain = #{productExplain}
+where product_no = #{productNo}
+</update>
+<update id="updateProductWear" parameterType="Product">
+update product
+set product_name = #{productName},
+	product_price = #{productPrice},
+	code = #{productCode},
+	product_amount = #{productAmount},
+	product_explain = #{productExplain}
+where product_no = #{productNo} 
+</update>
+<delete id="deleteProduct" parameterType="_int">
+delete from product where product_no = no
+</delete>
+<select id="selectProductList" resultType="Product">
+<include refid="selectProduct"></include>
+</select>
+<select id="selectProductByNo" resultType="Product" parameterType="_int">
+<include refid="selectProduct"></include>
+where product_no = #{value}
+</select>
+<select id="selectCount" resultType="_int" parameterType="String">
+select count(*) from product where code = #{code}
+</select>
+<!-- <select id="" parameterClass="java.util.Map">
+select * from emp
+where id=#parameter1#
+where id=#parameter2#
+</select> -->
+<!-- <select id="selectProductpageList" resultType="health.item.vo.Product" parameterType="_int">
+SELECT product_no productNo, product_name productName, product_price productPrice, code productCode,product_amount productAmount,product_explain productExplain,imageName
+      FROM(SELECT ceil(rownum/5) page, product_no, product_name, product_price, code ,product_amount,product_explain,imageName FROM(SELECT product_no, product_name, product_price,code, product_amount,product_explain,image_name imageName FROM product ORDER BY product_no DESC))
+WHERE page = #{page}
+</select>
+ -->
+ <select id="selectProductpageList" resultType="Product" parameterType="CodePage">
+SELECT product_no productNo, product_name productName, product_price productPrice, code productCode,product_amount productAmount,product_explain productExplain,imageName
+      FROM(SELECT ceil(rownum/5) page, product_no, product_name, product_price, code ,product_amount,product_explain,imageName FROM(SELECT product_no, product_name, product_price,code, product_amount,product_explain,image_name imageName FROM product where code = #{frame} ORDER BY product_no DESC))
+WHERE page = #{page}
+</select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- 
+		의존관계
+		spring-mybatis 연동 의존관계
+		
+		BasicDataSource(bean) -> 주입 -> SqlSessionFactoryBean -> SqlSessionTemplate->주입->MemberDaoImpl -> 주입 -> MemberServiceImpl
+		mybatis 전역설정파일(문자열)
+	 -->
+	 
+	 <!-- BasicDataSource 빈으로 등록. -->
+
+	 <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+	 	p:driverClassName="oracle.jdbc.driver.OracleDriver"
+	 	p:url="jdbc:oracle:thin:@127.0.0.1:1521:XE"
+	 	p:username="scott"
+	 	p:password="tiger"
+	 	p:maxTotal="100"
+	 />
+	 
+	 <!-- 
+	 	SqlSessionFactoryBean 빈으로 등록 : 역할 - SqlSessionFactoryBuilder+SqlSessionFactory
+	 	DataSource, mybatis 전역설정파일 위치를 주입
+	 	(Setter)
+	  -->
+	  
+	  
+	  <bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+	  	p:dataSource-ref="dataSource" 
+		p:configLocation="classpath:com/domain/config/mybatis-config.xml"/>
+		
+	  <!-- 
+	  	SqlSessionTemplate 빈으로 등록 : 역할 - SqlSession 의 기능을 제공하는 클래스(SqlSession 과 동일한 메소드 제공)
+	  		SqlSessionFactoryBean을 주입 (생성자)
+	  		
+	   -->
+	   
+	   <bean name="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"
+	   		c:sqlSessionFactory-ref="sqlSessionFactory"
+	   />
+	   
+	   <!-- MemberDaoImpl 빈으로 등록 -->
+	   <!-- <bean name="memberDao" class="com.domain.member.dao.impl.MemberDaoImp"
+	   	c:session-ref="sqlSessionTemplate"/> -->
+	   	
+	   <!-- MemberServiceImpl 빈으로 등록 -->
+	  <!--  <bean name="memberService" class="com.domain.member.service.impl.MemberServiceImpl"
+	    c:dao-ref="memberDao"/> -->
+		
+		
+	 <context:component-scan base-package="com.domain.board.dao.impl,com.mydomain.model.service">
+	
+	</context:component-scan>
+		
+</beans>
+
+
+
+
+

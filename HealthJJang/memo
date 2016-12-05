@@ -1,0 +1,32 @@
+관리자 로그인 기능 만들기
+공용게시판 만들기
+	-insert Redirect 로 만들기
+//	-일단은 틀 만들기
+	-관리자만의 수정/ 삭제 기능 조정
+	-그 사용자만이 수정/ 삭제 보게 하기. 
+//	-그 사용자만이 password 보게 하기 들어갈때 alert 이나 jQuery 이용해서 비밀번호 입력후 들어가게 하기.
+//	-관리자 기반 만들기
+	//-count,수정후
+//	-뒤로 가기 눌러도 조회수 적용
+//	-순번 제대로 나오게 하기.
+	-관리자 기능을 적용하기.
+	-각종 에러메세지 띄우기.
+답변게시판 만들기
+
+/* 
+				$("#update").on("click",function(){
+					$.ajax({
+						"url":"/HealthJJang/Board/updateajax.do",
+						"data":{"password" :'${sessionScope.list.board_password}'},
+						"type":"POST",
+						"dataType":"text",
+						"success":function(){
+							var txt="비밀번호 : " + "<input type='password' name='updatepassword'>";
+							$("#update").html(txt);
+						},
+						"beforeSend":function(){
+							alert("실행하기 전에");
+						}
+						
+					});
+				}); */

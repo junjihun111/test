@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<sql id="select-sql">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password
+		from publicBoard
+	</sql>
+
+
+
+<!-- 	<sql id="select-sql">
+		select member_id id, password, member_name name, email, mileage  from member
+	</sql>
+	
+	<insert id="insertMember" parameterType="member">
+		insert into member values (#{id}, #{password}, #{name}, #{email}, #{mileage})
+	</insert>
+	
+	공통
+	<update id="updateMemberById" parameterType="member">
+		update member
+		set password = #{password},
+			 member_name = #{name},
+			 email = #{email},
+			 mileage = #{mileage}
+		where member_id = #{id}
+	</update>
+	
+	<delete id="deleteMemberById" parameterType="string">
+		delete from member where member_id = #{id}
+	</delete>
+	
+	조회
+	<select id="selectMemberById" parameterType="string" resultType="member">
+		<include refid="select-sql"/>
+		where member_id = #{value}
+	</select>
+	<select id="selectMemberList" resultType="member">
+		<include refid="select-sql"/>
+	</select>
+   
+	<select id="selectMemberByName" parameterType="string" resultType="member">
+		<include refid="select-sql"/>
+		where member_name like '%'||#{value}||'%'
+	</select>
+	
+	마일리지 범위로 회원 조회
+	
+	 parameterType에 ? 가 여러개인 경우 Map 이나 VO를 선언한다.
+	  - VO : VO가 있는 경우 - Data Type으로 사용되는 VO를 이용하는 경우.
+	  - Map : VO가 없는 경우 - where  조건등에서 임시로 ? 에 사용되는 값들일 경우.
+	  	-> 파라미터 매핑에 map의 키값을 설정한다.  #{startMileage} -> map객체의 get("startMileage") 리턴 값을 ?에 넣어라. 
+	
+	<select id="selectMemberByMileageRange" resultType="member" parameterType="hashmap">
+		<include refid="select-sql"/>
+		where mileage between #{startMileage} and #{endMileage}
+	</select>
+   
+   
+   WEB에서 추가
+   paging을 위한 select
+   <select id="selectMemberListPaging" resultType="member" parameterType="hashmap">
+      select member_id id, password, member_name name, email, mileage
+      from  (select ceil(rownum/#{itemPerPage}) page, member_id, password, member_name, email, mileage
+               from(select member_id, password, member_name, email, mileage
+                       from member order by member_id desc
+                      )
+               )
+      where page = #{page}
+   </select>
+   <select id="selectCountMember" resultType="_int">
+      select count(member_id) from member
+   </select> -->
+   
+   <select id="selectBoardListPaging" resultType="board" parameterType="hashmap">
+   	select board_no , board_header, board_name, board_content, board_date, board_count, board_password 
+      from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password 
+               from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password 
+                       from publicBoard order by board_no desc
+                      )
+               )
+      where page = #{page}
+   </select>
+   
+   
+   
+   <insert id="insertboard" parameterType="board">
+  	 	<selectKey resultType="_int" keyProperty="board_no" order="BEFORE">
+	 		select  board_tb_no_seq.nextVal from dual
+	 	</selectKey>
+		insert into publicBoard values (#{board_no}, #{board_header}, #{board_name}, #{board_content}, #{board_date},  #{board_count}, #{board_password})
+	</insert>
+   
+   <select id="selectBoardById" resultType="CodeTable">		
+		select CODEOPTION from codetable
+   </select> 
+   
+   <update id="updateBoardById" parameterType="board">
+		update publicBoard
+		set  
+		<!-- <selectKey resultType="_int" keyProperty="board_no" order="BEFORE">
+	 		select  board_tb_no_seq.nextVal from dual
+	 	</selectKey> -->
+			 board_no = #{board_no},
+			 board_header = #{board_header},
+			 board_name = #{board_name},
+			 board_content = #{board_content},
+			 board_date= #{board_date},
+			 board_count = #{board_count},
+			 board_password=#{board_password}
+		where board_no = #{board_no}
+	</update>
+	
+	<delete id="deleteBoardById" parameterType="_int">
+		delete from publicBoard where board_no = #{value}
+	</delete>
+	
+	<select id="selectlistById" parameterType="_int" resultType="board">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password
+		from publicBoard
+		where board_no = #{value}
+	</select>
+	
+	<select id="selectBoardList" resultType="board">
+		<include refid="select-sql"/>
+	</select>
+	
+	<select id="selectSequence" resultType="_int">
+		select  board_tb_no_seq.nextVal from dual
+	</select>
+	
+	<select id="selectCount" resultType="_int">
+		select  board_tb_no_count.nextVal from dual
+	</select> 
+	
+	<update id="updateCount" parameterType="board">
+		update publicBoard 
+		set board_count=#{board_count}+1 
+		where board_no= #{board_no}
+	</update>
+	
+	<select id="selectCountBoard" resultType="_int">
+		select count(board_no) from publicBoard
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
