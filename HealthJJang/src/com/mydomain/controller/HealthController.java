@@ -15,9 +15,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,6 +30,7 @@ import com.mydomain.vo.Board;
 import com.mydomain.vo.Code;
 import com.mydomain.vo.CodePage;
 import com.mydomain.vo.Color;
+import com.mydomain.vo.Member;
 import com.mydomain.vo.Product;
 import com.mydomain.vo.TColor;
 
@@ -368,8 +371,31 @@ public class HealthController {
 		
 	}
 	@RequestMapping("/OrderForm.do")
-	public ModelAndView ViewOrderForm(int price,int memberNumber,int phoneEnd,int amount
-			,String productName){
+	@ResponseBody
+	public ModelAndView ViewOrderForm(int price,@RequestParam(required=false) String memberNumber,@RequestParam(required=false) String phoneEnd,int amount
+			,String productName,String code,String productNo){
+		System.out.println(productNo);
+		
+		System.out.println(phoneEnd);
+		 System.out.println(memberNumber);
+		
+		
+		
+		/*if(memberNumber == null){
+			
+		}else{
+		*/
+		int mNumber = Integer.parseInt(memberNumber);
+		int pProductNo= Integer.parseInt(productNo);
+		System.out.println("----");
+		System.out.println(mNumber);
+		Member member  =  service3.getMembetByNo(new Member(mNumber,phoneEnd));
+		System.out.println(member);
+		if(member == null){
+			return new ModelAndView("/ViewOne.do?no="+pProductNo,"Oerror","회원번호가 틀렸습니다 다시 입력해주세요.");
+		}
+		
+		
 		
 		return null;
 	}

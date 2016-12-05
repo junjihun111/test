@@ -30,11 +30,21 @@
 <script type="text/javascript" src="/HealthJJang/scripts/jquery.js"></script>
 <script>
 	var code = "${requestScope.result.item.productCode}";
+	/* $(window).load(function(){
+	    alert('ojtiger.com');
+	}); */
+	
 	$(document).ready(function(){
 	 	$("#colorForm").hide();
 	 	$("#sizeForm").hide();
 		$("#memberCheckForm").hide();
+		var price = "${requestScope.result.item.productPrice}";
 		
+		var no = "${requestScope.result.item.productNo}";
+		alert(no);
+		
+		var hidden = $("#hidden").html();
+
 		$("#memberCheckYes").on("click",function(){
 
 			
@@ -99,29 +109,41 @@
 				this.value = 1;
 			}else{
 				$("#price").text(price*amount+" 원");
-			
+				
 			}
 		});
 			
 		
 		
  	});
+	window.onload = function(){
+	    alert("window.onload ALERT 경고창");
+	    var val = $("#value").text();
+		$("#hidden").append("<input type='hidden' name='price' value="+val+">");
+
+	}
+	
 	
 </script>
 <section class="section">
-	<form name="orderForm" action="/HealthJJang/OrderForm.do">
+	<form name="orderForm" action="/HealthJJang/OrderForm.do?code=${requestScope.result.item.productCode}&&productNo=${requestScope.result.item.productNo}">
+	<div id="hidden">
+	<input type="hidden" name="productNo" value="${requestScope.result.item.productNo}">
+	<input type="hidden" name="code" value="${requestScope.result.item.productCode }">
+	</div>
+
 	<img alt="물품 ${requestScope.result.item.productName}"
 		src="/HealthJJang/ect/${requestScope.result.item.imageName}">
 	${requestScope.result.item.productName}<br>
 	<%-- <fmt:parseNumber value="${requestScope.result.item.productPrice*0.8}" integerOnly="true"></fmt:parseNumber> --%>
 	<div id="price">
-	${requestScope.result.item.productPrice} 원
-	</div><br> 회원이십니까?<br> <input
+	<section style="padding: 10px;"><span id="value">${requestScope.result.item.productPrice}</span>원</section>
+	<br></div><br> 회원이십니까? <br> <input
 		type="radio" id="memberCheckYes" name="memberCheck" value="yes">예 &nbsp; <input
 		type="radio" id="memberCheckNo" name="memberCheck" value="no">아니요 <br>
 		<div id="memberCheckForm">
 		회원 카드번호 : <input type="text" name="memberNumber">
-		회원 핸드폰 뒷자리번호 : <input type="password" name="memberPhoneNumber">
+		회원 핸드폰 뒷자리번호 : <input type="password" name="phoneEnd">
 		</div>
 		물품수량<input type="number" id="amount" name="amount" min="1" value="1" step="1" style="width: 30px;height: 30px;">개
 	<div id="colorForm">
