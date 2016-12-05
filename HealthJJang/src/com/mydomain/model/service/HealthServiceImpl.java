@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.domain.board.dao.HealthDao;
+import com.domain.board.dao.MemberDao;
 import com.domain.common.util.PagingBean;
 
 import com.mydomain.vo.Board;
@@ -23,6 +24,9 @@ public class HealthServiceImpl implements HealthService{
 
 	@Autowired
 	private HealthDao dao;
+	@Autowired
+	
+	
 	
 	public HealthServiceImpl(HealthDao dao)
 	{
@@ -30,12 +34,7 @@ public class HealthServiceImpl implements HealthService{
 	}
 	
 	
-	@Override
-	public List<Board> getMemberList() {
-		// TODO Auto-generated method stub
-		return dao.selectBoardList();
-	}
-	
+
 	public List<CodeTable> findBoardCode()
 	{
 		return dao.selectBoardCode();
@@ -83,5 +82,12 @@ public class HealthServiceImpl implements HealthService{
 	public int selectCount()
 	{
 		return dao.selectCount();
+	}
+
+
+	@Override
+	public List<Board> getBoardList() {
+		// TODO Auto-generated method stub
+		return dao.selectBoardList();
 	}
 }

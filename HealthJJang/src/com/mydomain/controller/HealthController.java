@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mydomain.model.service.HealthService;
+import com.mydomain.model.service.MemberService;
 import com.mydomain.model.service.ProductService;
 import com.mydomain.vo.Board;
 import com.mydomain.vo.Code;
@@ -38,6 +39,7 @@ public class HealthController {
 	
 	/*ProductService service2 = (ProductService) context.getBean("productService");*/
 	ProductService service2=(ProductService) context.getBean("productService");
+	MemberService service3 =(MemberService) context.getBean("MemberService");
 	private boolean overlapCheck(int productNo,Product product,ProductService service){ //중복확인 메소드
 		product = service.getItemByNo(productNo);
 		if(product == null){
@@ -90,7 +92,7 @@ public class HealthController {
 		List list2=service.findBoardCode();
 		//System.out.println(list2);
 		 
-		List list=service.getMemberList();
+		List list=service.getBoardList();
 		
 		//map.addAttribute("select", list2);
 		session.setAttribute("select",list2);
@@ -366,7 +368,9 @@ public class HealthController {
 		
 	}
 	@RequestMapping("/OrderForm.do")
-	public ModelAndView ViewOrderForm(){
+	public ModelAndView ViewOrderForm(int price,int memberNumber,int phoneEnd,int amount
+			,String productName){
+		
 		return null;
 	}
 	
