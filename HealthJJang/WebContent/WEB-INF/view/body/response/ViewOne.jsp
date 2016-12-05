@@ -27,7 +27,7 @@
 	padding: 10px;
 }
 </style>
-<script type="text/javascript" src="/_Health_Zzang/scripts/jquery.js"></script>
+<script type="text/javascript" src="/HealthJJang/scripts/jquery.js"></script>
 <script>
 	var code = "${requestScope.result.item.productCode}";
 	$(document).ready(function(){
@@ -48,7 +48,7 @@
 			$("#memberCheckForm").hide();
 		});
 		$("#shoppingbasket").on("click",function(){
-			location.href ="/_Health_Zzang/shoppingCart"
+			location.href ="/HealthJJang/shoppingCart"
 		});
 		if(code == "P_01"){//P_01 = 운동기구 02 운동복 03 영양제
 			$("#colorForm").show();
@@ -109,9 +109,9 @@
 	
 </script>
 <section class="section">
-	<form name="orderForm" action="/_Health_Zzang/OrderForm.do">
+	<form name="orderForm" action="/HealthJJang/OrderForm.do">
 	<img alt="물품 ${requestScope.result.item.productName}"
-		src="/_Health_Zzang/ect/${requestScope.result.item.imageName}">
+		src="/HealthJJang/ect/${requestScope.result.item.imageName}">
 	${requestScope.result.item.productName}<br>
 	<%-- <fmt:parseNumber value="${requestScope.result.item.productPrice*0.8}" integerOnly="true"></fmt:parseNumber> --%>
 	<div id="price">

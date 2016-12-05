@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script type="text/javascript" src="/_Health_Zzang/scripts/jquery.js"></script>
+<script type="text/javascript" src="/HealthJJang/scripts/jquery.js"></script>
 <script>
 	
 $(document).ready(function(){
@@ -44,14 +44,7 @@ $(document).ready(function(){
 
 function error(){
 	var errorMessage = "";
-	/*
-	<span id="nameError" style='color: red;font-size: small;'>이름을 입력하세요</span><br>
-<span id="fileError" style='color: red;font-size: small;'>파일을 선택하세요</span><br>
-<span id="categoryError" style='color: red;font-size: small;'>카테고리를 선택하세요</span><br>
-<span id="colorError" style='color: red;font-size: small;'>3개이상 색상을 선택하세요</span><br>
-<span id="sizeError" style='color: red;font-size: small;'>1개이상 사이즈를 선택하세요</span><br>
-<span id="exError" style='color: red;font-size: small;'>물품 설명을 입력하세요</span><br>
-	*/
+
 	if($("#productName").val() == ""){
 		errorMessage = errorMessage+"<span id='nameError' style='color: red;font-size: small;'>이름을 입력하세요</span><br>";
 	
@@ -122,7 +115,7 @@ function error(){
 
 </div>
 <div id="formDiv">
-<form method="post" enctype="multipart/form-data" action="/_Health_Zzang/addItem.do" id="form" onsubmit="return error()">
+<form method="post" enctype="multipart/form-data" action="/HealthJJang/addItem.do" id="form" onsubmit="return error()">
 <input type="hidden" value="" name="frame">
 물품이름 <input type="text" name="name" id="productName"><br>
 물품사진 : <input type="file" name="upImage" id="image"><br>

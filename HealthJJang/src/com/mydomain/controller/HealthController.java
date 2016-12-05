@@ -320,7 +320,7 @@ public class HealthController {
 		
 		/*중복체크*/ 
 		Product product = service2.getItemByNo(productNo);
-		while (overlapCheck(productNo, product, (ProductService) service)) {
+		while (overlapCheck(productNo, product, (ProductService) service2)) {
 			productNo = (int) (Math.random() * 10) + 1;
 		}
 

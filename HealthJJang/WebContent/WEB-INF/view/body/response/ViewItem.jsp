@@ -25,7 +25,7 @@ a:active {text-decoration: none; color: blue;}
 a:hover {text-decoration: underline; color: red;}
 
 </style>
-<script type="text/javascript" src="/_Health_Zzang/scripts/jquery.js"></script>
+<script type="text/javascript" src="/HealthJJang/scripts/jquery.js"></script>
 <script>
 $(document).ready(function(){
 	var error = "${requestScope.errorMessage}";
@@ -47,19 +47,19 @@ $(document).ready(function(){
 		<c:forEach items="${requestScope.result.list}" var="item">
 			<tr>
 				<td id="image"><img alt="물품 ${item.productName}"
-					src="/_Health_Zzang/ect/${item.imageName}"></td>
-				<td><a href="/_Health_Zzang/ViewOne.do?no=${item.productNo}">${item.productName }</a></td>
+					src="/HealthJJang/ect/${item.imageName}"></td>
+				<td><a href="/HealthJJang/ViewOne.do?no=${item.productNo}">${item.productName }</a></td>
 				<td style="text-align: right;">${item.productPrice}원</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
 <p>
-<a href="/_Health_Zzang/ViewList.do?page1=1&&code=${requestScope.result.code}">◁</a>&nbsp;&nbsp;
+<a href="/HealthJJang/ViewList.do?page1=1&&code=${requestScope.result.code}">◁</a>&nbsp;&nbsp;
 	<c:choose>
 		<c:when test="${requestScope.result.pageBean.previousPageGroup}">
 			<a
-				href="/_Health_Zzang/ViewList.do?page1=${requestScope.result.pageBean.beginPage -1}&&code=${requestScope.result.code}">
+				href="/HealthJJang/ViewList.do?page1=${requestScope.result.pageBean.beginPage -1}&&code=${requestScope.result.code}">
 				◀ </a>
 		</c:when>
 		<c:otherwise>◀</c:otherwise>
@@ -72,14 +72,14 @@ $(document).ready(function(){
 [${page}]
 </c:when>
 			<c:otherwise>
-				<a href="/_Health_Zzang/ViewList.do?page1=${page}&&code=${requestScope.result.code}"> ${page}</a>
+				<a href="/HealthJJang/ViewList.do?page1=${page}&&code=${requestScope.result.code}"> ${page}</a>
 			</c:otherwise>
 		</c:choose>
 		&nbsp;&nbsp;
 	</c:forEach>
 	<c:choose>
 	<c:when test="${requestScope.result.pageBean.nextPageGroup }">
-		<a href="/_Health_Zzang/ViewList.do?page1=${requestScope.result.pageBean.endPage + 1}&&code=${requestScope.result.code}">
+		<a href="/HealthJJang/ViewList.do?page1=${requestScope.result.pageBean.endPage + 1}&&code=${requestScope.result.code}">
 		▶
 		</a>&nbsp;&nbsp;
 	</c:when>
@@ -87,5 +87,5 @@ $(document).ready(function(){
 </c:choose>
 
 <%--마지막 페이지로 이동 --%>
-<a href="/_Health_Zzang/ViewList.do?page1=${requestScope.result.pageBean.totalPage}&&code=${requestScope.result.code}">▷</a>
+<a href="/HealthJJang/ViewList.do?page1=${requestScope.result.pageBean.totalPage}&&code=${requestScope.result.code}">▷</a>
 </div>

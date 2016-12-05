@@ -42,9 +42,20 @@ create table codetable(
 
 drop table codetable
 
+
+select code,codeOption,codeValue,explagin
+from codetable
+where CODEVALUE = '쇼핑'
+
+운동기구/ 운동복/ 영양제
+
 insert into codetable values('A', '제품', '말머리', '말머리이다');
 insert into codetable values('B', '배송', '말머리', '말머리이다');
 insert into codetable values('C', '고객', '말머리', '말머리이다');
+
+insert into codetable values('D', '운동기구', '쇼핑', '운동기구');
+insert into codetable values('E', '운동복', '쇼핑', '운동복');
+insert into codetable values('F', '영양제', '쇼핑', '영양제');
 
 select * from CODETABLE;
 
@@ -174,6 +185,11 @@ create table color
                )
       where page = 2
 
+select product_no,product_name,product_price ,code productCode,product_amount , product_explain productExplain,image_Name imageName
+from product
+
+select colorName, product_no ,product_size ,productFrame from productoption
+
 
 select count(board_no) from publicBoard
 
@@ -189,6 +205,11 @@ drop table product
 
 create table color(colorName varchar2(20))
 
-create table productOption(colorName varchar2(20), prouct_no number(10) constraint health_fk8 references product, product_size varchar2(30),productCode varchar2(30))
+insert into COLOR values('빨강');
+insert into COLOR values('파랑');
+insert into COLOR values('노랑');
+insert into COLOR values('초록');
+
+create table productOption(colorName varchar2(20), product_no number(10) constraint health_fk8 references product, product_size varchar2(30),productFrame varchar2(30));
 
 create table product(product_no number(10) primary key,product_name varchar2(50) not null,product_price number(10) not null,product_amount number(5) not null,product_explain varchar2(50) not null, code varchar2(40) , image_name varchar2(20) not null);

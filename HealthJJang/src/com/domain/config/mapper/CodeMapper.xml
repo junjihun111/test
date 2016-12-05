@@ -10,5 +10,6 @@ where code = #{code}
 <select id="selectCodeList" resultType="Code" >
 select code,codeOption,codeValue,explagin
 from codetable
+where CODEVALUE = '쇼핑'
 </select>
 </mapper>
