@@ -36,7 +36,7 @@
 	<mvc:view-controller path="/addItem_form.do" view-name="itemAdd.tiles"/>
 	<mvc:view-controller path="/viewItem.do" view-name="viewItem.tiles"/>
 	<mvc:view-controller path="/ViewItemPage.do" view-name="viewItemOne.tiles"/>
-	
+	<mvc:view-controller path="/Order.do" view-name="orderForm.tiles"/>
 	<mvc:view-controller path="/shopping.do" view-name="Board/index.tiles"/>
 		 
 	  

@@ -374,6 +374,7 @@ public class HealthController {
 	@ResponseBody
 	public ModelAndView ViewOrderForm(int price,@RequestParam(required=false) String memberNumber,@RequestParam(required=false) String phoneEnd,int amount
 			,String productName,String code,String productNo){
+		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(productNo);
 		System.out.println(phoneEnd);
 		System.out.println(memberNumber);
@@ -381,7 +382,6 @@ public class HealthController {
 		int pProductNo= Integer.parseInt(productNo);
 		
 		if(memberNumber == ""){
-		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("price", price);
 		 result.put("userAmount", amount);
 		 result.put("productNo", productNo);
@@ -409,10 +409,17 @@ public class HealthController {
 		}
 		price = (int) Math.round(price*0.8);
 		System.out.println(price);
+		 result.put("price", price);
+		 result.put("userAmount", amount);
+		 result.put("productNo", productNo);
+		 result.put("productName", productName);
+		 
+		 result.put("category", code);
+		 
+		 service2.amountUpdate(result);
 		
 		
-		
-		return null;
+		 return new ModelAndView("/Order.do","result",result);
 	}
 	
 	

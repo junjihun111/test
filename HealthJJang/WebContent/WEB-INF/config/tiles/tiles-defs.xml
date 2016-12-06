@@ -33,7 +33,9 @@
 	<definition name="itemUpdate.tiles" extends="template">
 	 <put-attribute name="body" value="/WEB-INF/view/body/request/itemUpdate_form.jsp"></put-attribute>
 	 </definition>
- 	 
+ 	<definition name="orderForm.tiles" extends="template">
+ 	 <put-attribute name="body" value="/WEB-INF/view/body/request/order_form.jsp"></put-attribute>
+ 	</definition>
  	 
  	 <definition name="*/*.tiles" extends="template">
  	 <!-- name /를 기준으로 앞에가 {1} 뒤에가 {2} -->
