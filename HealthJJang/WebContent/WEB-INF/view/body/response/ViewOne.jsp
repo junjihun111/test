@@ -29,25 +29,60 @@
 </style>
 <script type="text/javascript" src="/HealthJJang/scripts/jquery.js"></script>
 <script>
+var errorMessage = "";
 	var code = "${requestScope.result.item.productCode}";
+	var error = "${requestScope.Oerror}";
 	/* $(window).load(function(){
 	    alert('ojtiger.com');
 	}); */
+	function errors(){
+		
+		
+		
+		if($("#memberCheckYes").is(":checked")){
+			if($("#phoneNo").val() == ""){
+				errorMessage = errorMessage+"<span style='color: red;font-size: small;'>비밀번호를 입력하세요</span><br>";
+			}	
+			if($("#No").val() == ""){
+				errorMessage = errorMessage+"<span style='color: red;font-size: small;'>회원번호를 입력하세요</span><br>";
+			}
+			
+			if(errorMessage == ""){
+				return true;
+			}
+			
+			$("#error").html(errorMessage);
+			$("#error").show();
+			errorMessage = "";
+			return false;	
+			
+		}
+		
+		
+	}
 	
 	$(document).ready(function(){
 	 	$("#colorForm").hide();
 	 	$("#sizeForm").hide();
 		$("#memberCheckForm").hide();
+		$("#error").hide();
+
+		if(error != ""){
+			errorMessage = errorMessage+"<span style='color: red;font-size: small;'>"+error+"</span><br>";
+			$("#error").html(errorMessage);
+			$("#error").show();
+			errorMessage = "";
+		}
+		
 		var price = "${requestScope.result.item.productPrice}";
 		
 		var no = "${requestScope.result.item.productNo}";
 		alert(no);
 		
 		var hidden = $("#hidden").html();
-
+	
+		
 		$("#memberCheckYes").on("click",function(){
-
-			
 				$("#memberCheckForm").show();
 			
 			
@@ -60,9 +95,9 @@
 		$("#shoppingbasket").on("click",function(){
 			location.href ="/HealthJJang/shoppingCart"
 		});
-		if(code == "P_01"){//P_01 = 운동기구 02 운동복 03 영양제
+		if(code == "D"){//P_01 = 운동기구 02 운동복 03 영양제
 			$("#colorForm").show();
- 		}else if(code == "P_02"){
+ 		}else if(code == "E"){
  			$("#colorForm").show();
  			$("#sizeForm").show();
  		}
@@ -117,20 +152,19 @@
 		
  	});
 	window.onload = function(){
-	    alert("window.onload ALERT 경고창");
+	
 	    var val = $("#value").text();
 		$("#hidden").append("<input type='hidden' name='price' value="+val+">");
-
-	}
+		}
 	
 	
 </script>
 <section class="section">
-	<form name="orderForm" action="/HealthJJang/OrderForm.do?code=${requestScope.result.item.productCode}&&productNo=${requestScope.result.item.productNo}">
+	<form name="orderForm" action="/HealthJJang/OrderForm.do?code=${requestScope.result.item.productCode}&&productNo=${requestScope.result.item.productNo}" onsubmit="return errors()">
 	<div id="hidden">
 	<input type="hidden" name="productNo" value="${requestScope.result.item.productNo}">
 	<input type="hidden" name="code" value="${requestScope.result.item.productCode }">
-	
+	<input type="hidden" name="productName" value="${requestScope.result.item.productName}">
 	</div>
 
 	<img alt="물품 ${requestScope.result.item.productName}"
@@ -140,11 +174,13 @@
 	<div id="price">
 	<section class="section" style="padding: 10px;"><span id="value">${requestScope.result.item.productPrice}</span>원</section>
 	<br></div> 회원이십니까? <br> <input
-		type="radio" id="memberCheckYes" name="memberCheck" value="yes">예 &nbsp; <input
+		type="radio" id="memberCheckYes" name="memberCheck" value="yes" >예 &nbsp; <input
 		type="radio" id="memberCheckNo" name="memberCheck" value="no">아니요 <br>
 		<div id="memberCheckForm">
-		회원 카드번호 : <input type="text" name="memberNumber">
-		회원 핸드폰 뒷자리번호 : <input type="password" name="phoneEnd">
+		 
+		회원 카드번호 : <input type="text" name="memberNumber" id="No" >
+		회원 핸드폰 뒷자리번호 : <input type="password" name="phoneEnd" id="phoneNo"  onkeypress="if (event.keyCode<48|| event.keyCode>57)  event.returnValue=false;" 
+              style='IME-MODE:disabled;'>
 		</div>
 		물품수량<input type="number" id="amount" name="amount" min="1" value="1" step="1" style="width: 30px;height: 30px;">개
 	<div id="colorForm">
@@ -167,6 +203,9 @@
 	<input type="submit" value="구매"> <button id="shoppingbasket">장바구니</button>
 </form>
 </section>
+<div id="error">
+
+</div>
 <%-- 	<article id="content">${requestScope.notice.content }</article>
  --%>
 <%-- <p>

@@ -386,14 +386,21 @@ public class HealthController {
 		System.out.println(memberNumber);
  
 		int pProductNo= Integer.parseInt(productNo);
-		
+		if(code.equals("D")){
+			code = "운동기구";
+		}else if(code.equals("E")){
+			code = "운동복";
+		}else if(code.equals("F")){
+			code = "영양제";
+		}
+		System.out.println(code);
 		if(memberNumber == ""){
-		 result.put("price", price);
-		 result.put("userAmount", amount);
-		 result.put("productNo", productNo);
-		 result.put("productName", productName);
-		 
-		 result.put("category", code);
+			result.put("price", price);
+			 result.put("userAmount", amount);
+			 result.put("productNo", productNo);
+			 result.put("productName", productName);
+			 
+			 result.put("category", code);
 		 
 		 service2.amountUpdate(result);
 		 	return new ModelAndView("/Order.do","result",result);
@@ -402,7 +409,7 @@ public class HealthController {
 		try{
 			 mNumber = Integer.parseInt(memberNumber);	
 		}catch(Exception e){
-			
+			return new ModelAndView("/ViewOne.do?no="+pProductNo,"Oerror","숫자만 입력할수있습니다.");
 		}
 		
 		
