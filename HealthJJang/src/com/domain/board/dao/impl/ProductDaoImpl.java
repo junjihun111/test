@@ -1,6 +1,7 @@
 package com.domain.board.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,11 @@ public class ProductDaoImpl implements ProductDao {
 	public int updateProductItem(Product product) {
 		// TODO Auto-generated method stub
 		return session.update("updateProductItem",product);
+	}
+	@Override
+	public int updateamount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.insert(makeSql("amountUpdate"),map);
 	}
 
 }

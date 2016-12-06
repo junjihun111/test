@@ -45,6 +45,11 @@ set product_name = #{productName},
 	product_explain = #{productExplain}
 where product_no = #{productNo} 
 </update>
+<update id="amountUpdate" parameterType="java.util.Map">
+ update product
+ set product_amount = product_amount-#{userAmount}
+ where product_no = #{productNo}
+</update>
 <delete id="deleteProduct" parameterType="_int">
 delete from product where product_no = no
 </delete>

@@ -1,6 +1,7 @@
 package com.domain.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mydomain.vo.CodePage;
 import com.mydomain.vo.Product;
@@ -17,7 +18,7 @@ public interface ProductDao {
 	 * 5.물품PK조회 - selectOne
 	 * 6.물품 총개수 - selectCount
 	 * 7.게시판 목록의 보여질 게시물들을 page단위로 조회 - selectRownum
-	 * 
+	 * 8.수량 갱신
 	 * 
 	 * */
 	int insertProductWear(Product product);
@@ -27,6 +28,7 @@ public interface ProductDao {
 	int updateProductItem(Product product);
 	int updateProductWear(Product product);
 	int deleteProduct(int productNo);
+	int updateamount(Map<String,Object> map);
 	List<Product> selectProductList();
 	Product selectProductByNumber(int no);
 	int selectProductCount(String code);

@@ -164,6 +164,12 @@ public class ProductServiceImpl implements ProductService {
 		return memberDao.selectMember(member);
 	}
 
+	@Override
+	public void amountUpdate(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		dao.updateamount(map);
+	}
+
 	
 
 }

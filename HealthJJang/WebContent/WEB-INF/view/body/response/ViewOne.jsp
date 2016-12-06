@@ -3,8 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style type="text/css">
 .section {
-	width: 700px;
-	border: 1px solid gray;
+	
+	
 }
 
 #title {
@@ -130,6 +130,7 @@
 	<div id="hidden">
 	<input type="hidden" name="productNo" value="${requestScope.result.item.productNo}">
 	<input type="hidden" name="code" value="${requestScope.result.item.productCode }">
+	
 	</div>
 
 	<img alt="물품 ${requestScope.result.item.productName}"
@@ -137,8 +138,8 @@
 	${requestScope.result.item.productName}<br>
 	<%-- <fmt:parseNumber value="${requestScope.result.item.productPrice*0.8}" integerOnly="true"></fmt:parseNumber> --%>
 	<div id="price">
-	<section style="padding: 10px;"><span id="value">${requestScope.result.item.productPrice}</span>원</section>
-	<br></div><br> 회원이십니까? <br> <input
+	<section class="section" style="padding: 10px;"><span id="value">${requestScope.result.item.productPrice}</span>원</section>
+	<br></div> 회원이십니까? <br> <input
 		type="radio" id="memberCheckYes" name="memberCheck" value="yes">예 &nbsp; <input
 		type="radio" id="memberCheckNo" name="memberCheck" value="no">아니요 <br>
 		<div id="memberCheckForm">

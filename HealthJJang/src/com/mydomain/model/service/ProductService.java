@@ -28,6 +28,7 @@ public interface ProductService {
 	 * 9.코드 값조회
 	 * 10.색상전체조회
 	 * 11.옵션추가
+	 * 12.수량 갱신
 	 * */
 	public void addItem(Product product);
 	public void addItemWear(Product product);
@@ -36,7 +37,7 @@ public interface ProductService {
 	public void modifyItemWear(Product product);
 	public void modifyItemItem(Product product);
 	public void removeItem(int productNo);
-	
+	public void amountUpdate(Map<String,Object> map);
 
 	public Product getItemByNo(int productNo);
 

@@ -375,18 +375,31 @@ public class HealthController {
 	public ModelAndView ViewOrderForm(int price,@RequestParam(required=false) String memberNumber,@RequestParam(required=false) String phoneEnd,int amount
 			,String productName,String code,String productNo){
 		System.out.println(productNo);
-		
 		System.out.println(phoneEnd);
-		 System.out.println(memberNumber);
-		
-		
-		
-		/*if(memberNumber == null){
-			
-		}else{
-		*/
-		int mNumber = Integer.parseInt(memberNumber);
+		System.out.println(memberNumber);
+ 
 		int pProductNo= Integer.parseInt(productNo);
+		
+		if(memberNumber == ""){
+		 Map<String, Object> result = new HashMap<String, Object>();
+		 result.put("price", price);
+		 result.put("userAmount", amount);
+		 result.put("productNo", productNo);
+		 result.put("productName", productName);
+		 
+		 result.put("category", code);
+		 
+		 service2.amountUpdate(result);
+		 	return new ModelAndView("/Order.do","result",result);
+		}
+		int mNumber = 0;
+		try{
+			 mNumber = Integer.parseInt(memberNumber);	
+		}catch(Exception e){
+			
+		}
+		
+		
 		System.out.println("----");
 		System.out.println(mNumber);
 		Member member  =  service3.getMembetByNo(new Member(mNumber,phoneEnd));
@@ -394,6 +407,8 @@ public class HealthController {
 		if(member == null){
 			return new ModelAndView("/ViewOne.do?no="+pProductNo,"Oerror","회원번호가 틀렸습니다 다시 입력해주세요.");
 		}
+		price = (int) Math.round(price*0.8);
+		System.out.println(price);
 		
 		
 		
