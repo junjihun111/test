@@ -417,7 +417,7 @@ public class HealthController {
 		 result.put("category", code);
 		 
 		 service2.amountUpdate(result);
-		
+		//이얍!
 		
 		 return new ModelAndView("/Order.do","result",result);
 	}
