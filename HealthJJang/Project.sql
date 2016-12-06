@@ -15,7 +15,6 @@ create table health_member
 	member_birthDay DATE,
 	member_address varchar2(100),
 	member_email varchar2(50),
-	member_returnprice number(20) not null,
 	member_codeID varchar2(50) not null	
 )
 
@@ -46,6 +45,12 @@ drop table codetable
 select code,codeOption,codeValue,explagin
 from codetable
 where CODEVALUE = '쇼핑'
+
+select codeOption
+from codetable
+where CODEVALUE = '말머리'
+
+
 
 운동기구/ 운동복/ 영양제
 

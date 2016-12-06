@@ -138,7 +138,7 @@ public class HealthDaoImp implements HealthDao {
 	
 	public int selectCount()
 	{
-		return session.selectOne("selectCount");
+		return session.selectOne("selectCountBoardCount");
 	}
 }
 

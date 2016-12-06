@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +19,7 @@
 		</tr>	
 		<tr>
 			<td width=500 height=50>
-				작성일시 : ${sessionScope.list.board_date} 조회수 : ${sessionScope.list.board_count} 비밀번호 : ${sessionScope.list.board_password}
+				작성일시 : <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${sessionScope.list.board_date}"/> 조회수 : ${sessionScope.list.board_count}
 			</td>
 		</tr>
 		<tr>
@@ -27,8 +30,8 @@
 	</table>
 		<br><br>
 	
-		<a href='Board/update.do'><input type="submit" value="수정"></a>
-		<a href='Board/BoardList.do'><input type="submit" value="삭제"></a>
+		<a href='update.do'><input type="submit" value="수정"></a>
+		<a href='delete.do'><input type="submit" value="삭제"></a>
 		
 
 </body>

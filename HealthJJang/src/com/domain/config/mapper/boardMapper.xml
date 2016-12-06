@@ -93,7 +93,7 @@
 	</insert>
    
    <select id="selectBoardById" resultType="CodeTable">		
-		select CODEOPTION from codetable
+		select CODEOPTION from codetable where CODEVALUE = '말머리'
    </select> 
    
    <update id="updateBoardById" parameterType="board">
@@ -130,7 +130,7 @@
 		select  board_tb_no_seq.nextVal from dual
 	</select>
 	
-	<select id="selectCount" resultType="_int">
+	<select id="selectCountBoardCount" resultType="_int">
 		select  board_tb_no_count.nextVal from dual
 	</select> 
 	

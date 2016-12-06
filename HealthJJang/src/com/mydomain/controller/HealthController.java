@@ -139,18 +139,24 @@ public class HealthController {
 		int no=service.selectCount();
 		int count=1;
 		
-		
-		
+
 		Date date=new Date(System.currentTimeMillis());
 		
 		board=new Board(no,header,name,content,date,count,password);
+		if(board.getBoard_name()==null||board.getBoard_header()==null||board.getBoard_password()==null)
+		{
+			System.out.println("오류이다.");
+			return new ModelAndView("Board/insert.tiles");
+		}else
+		{
+			System.out.println(board);
+			service.insertBoard(board);
 		
-		System.out.println(board);
-		service.insertBoard(board);
-	
-		session.setAttribute("list", board);
+			session.setAttribute("list", board);
 
-		return new ModelAndView("Board/insertSuccess.tiles");
+			return new ModelAndView("Board/insertSuccess.tiles");
+		}
+	
 		//return new ModelAndView("downloadView","downFile",fileName)
 	}
 	

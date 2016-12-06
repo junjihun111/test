@@ -20,7 +20,7 @@
 		</tr>	
 		<tr>
 			<td width=500 height=50>
-				작성일시 : ${sessionScope.list.board_date} 조회수 : ${sessionScope.list.board_count}
+				작성일시 : <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${sessionScope.list.board_date}"/>  조회수 : ${sessionScope.list.board_count}
 			</td>
 		</tr>
 		<tr>
@@ -42,7 +42,7 @@
 		 		${sessionScope.error}
 		 	</c:if> --%>
 		 	<br>
-		 	<c:if test="${not empty sessionScope.error}">
+		 	<c:if test="${not empty requestScope.error}">
 		 		${requestScope.error}
 		 	</c:if>
 		 	

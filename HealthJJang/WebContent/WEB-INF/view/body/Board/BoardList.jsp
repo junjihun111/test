@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -43,7 +44,7 @@
 			<td>${board.board_no} </td>
 			<td><a href="insertList.do?page=${board.board_no }">${board.board_name}
 			</a></td>
-			<td>${board.board_date}</td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.board_date}"/></td>
 			<td>${board.board_count}</td>
 		</tr>
 	</c:forEach>
