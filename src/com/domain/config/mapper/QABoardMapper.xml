@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="QABoard">
+
+	<sql id="select-sql">
+		
+select QA_no QABoardNo, QA_name QABoardName, QA_identificationnumber QABoardIdentificationnumber, QA_order QABoardOrder, QA_class QABoardClass, QA_content QABoardContent, QA_date QABoardDate, QA_writer QABoardDate 
+from QA
+	</sql>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
