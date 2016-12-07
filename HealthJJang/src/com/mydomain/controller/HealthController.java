@@ -426,7 +426,7 @@ public class HealthController {
 		 result.put("userAmount", amount);
 		 result.put("productNo", productNo);
 		 result.put("productName", productName);
-		 
+		 //이얍얍
 		 result.put("category", code);
 		 
 		 service2.amountUpdate(result);
