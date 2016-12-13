@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="order">
+<!-- 
+	1.주문추가
+	2.주문번호로 조회
+	3.조인조회
+ -->
+ <resultMap type="Orderation" id="orderationMap">
+ <result property="orderationNo" column="orderation_No"/>
+ <result property="productName" column="product_name"/>
+ <result property="buyerName" column="buyername"/>
+ <result property="phone1" column="phone1"/>
+ <result property="phone2" column="phone2"/>
+ <result property="phone3" column="phone3"/>
+ <result property="orderationAddress" column="orderation_address"/>
+ <result property="postalNumber" column="postalnumber"/>
+ <result property="code" column="code"/>
+ <result property="orderationPrice" column="orderation_price"/>
+ <result property="productAmount" column="product_Amount"/>
+ </resultMap>
+ <resultMap type="Order" id="orderResultMap">
+ <result property="orderationNo" column="orderation_no"/>
+ <result property="ordererName" column="orderername"/>
+ <result property="ordererCount" column="orderercount"/>
+<result property="password" column="password"/>
+<collection property="orderation" column="orderation_no" ofType="Orderation" javaType="List" resultMap="orderationMap"></collection>
+ </resultMap>
+ <insert id="insertOrder" parameterType="Order">
+ insert into orderer values(#{orderationNo},#{ordererName},#{ordererCount},#{password})
+ </insert>
+<select id="selectOrderByName" parameterType="java.util.Map" resultType="Order" >
+ select orderation_no orderationNo,ordererName,ordererCount,password
+ from orderer
+ where password = #{password} and ordererName = #{orderName}
+</select>
+ <select id="selectOrderByNo" parameterType="String" resultType="Order">
+ select orderation_no orderationNo,ordererName,ordererCount,password
+ from orderer
+ where password = #{value}
+ </select>
+ <select id="joinOrderer" resultMap="orderResultMap" parameterType="String">
+ select er.orderation_no, er.ordererName,er.ordererCount,er.password,o.orderation_no,o.product_name,o.buyerName,o.phone1,o.phone2,o.phone3,o.orderation_address,o.postalNumber,o.code,o.orderation_price ,o.product_amount
+from orderer er, orderation o
+where er.orderation_no = o.orderation_no and password = #{value}
+ </select>
+ <delete id="deleteOrder" parameterType="String">
+ delete from orderer where password = #{value}
+ </delete>
+</mapper>

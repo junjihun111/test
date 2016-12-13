@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.mydomain.vo.Board;
 import com.mydomain.vo.CodeTable;
+import com.mydomain.vo.ManagerInfo;
 import com.mydomain.vo.Member;
 import com.mydomain.vo.OperatorBoard;
+import com.mydomain.vo.QABoard;
+import com.mydomain.vo.dagle;
 
 
 public interface HealthService {
-	
+
+	List<ManagerInfo> selectMember();
 
 	List<Board> getBoardList(); //게시물 전체조회
 	List<CodeTable> findBoardCode(); //게시물 카테고리별 조회
@@ -41,6 +45,20 @@ public interface HealthService {
 	
 	Map getListPagingwriter(int page,String option);
 	
+	List<Board> selectjoin(int page); 
+	
+	int insertdagle(dagle dag);
+	
+	//
+	//답글삭제
+	int dagledelete(String writer);
+	
+	List<Board> selectjoinlist(int page);
+	
+	int dagleupdate(dagle dag);
+	
+	
+	
 	//공지사항
 	
 	Map selectoperatorListPaging(int page);
@@ -58,4 +76,19 @@ public interface HealthService {
 	int deleteoperatorById(int boardId);
 	
 	int updateoperatorById(OperatorBoard board);
+	
+	
+	//답변
+	
+	List selectQAList();
+	
+	int insertQA(QABoard qa);
+	
+	int insertQAdagelupdate(QABoard qa);
+	
+	List allQAList();
+	
+	List<QABoard> findgrp(int page);
+	
+	List<QABoard> selectlvl();
 }

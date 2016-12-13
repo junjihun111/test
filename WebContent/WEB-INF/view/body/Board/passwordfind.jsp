@@ -55,14 +55,14 @@
 	</c:forEach>
 	</tbody>
 </table>
-	<a href='insert.do'><button id="insert">글 등록</button></a>&nbsp;&nbsp;
+	<a href='operatorinsert.do'><button id="insert">글 등록</button></a>&nbsp;&nbsp;
 	<!-- 관리자 전용메뉴 <a href='Board/delete.do'>글 삭제</a>&nbsp;&nbsp; -->
 </body>
 
 
 <p>
 	<!-- 첫페이지로 이동 -->
-	<a href="passwordfind.do?page=1">
+	<a href="passwordfind.do?page=1&Boardpasswordfind=${requestScope.Boardpasswordfind}">
 		◁&nbsp;&nbsp;
 	</a>
 	<!--
@@ -71,7 +71,7 @@
 	 -->
  <c:choose>
  	<c:when test="${requestScope.pageBean.previousPageGroup }">
- 		<a href="passwordfind.do?page=${requestScope.pageBean.beginPage-1 }">
+ 		<a href="passwordfind.do?page=${requestScope.pageBean.beginPage-1 }&Boardpasswordfind=${requestScope.Boardpasswordfind}">
  			◀
  		</a>	
  		&nbsp;&nbsp;
@@ -89,7 +89,7 @@
 			   var="p">
 	<c:choose>
 		<c:when test="${p != requestScope.pageBean.page }">
-			<a href="passwordfind.do?page=${p }">
+			<a href="passwordfind.do?page=${p }&Boardpasswordfind=${requestScope.Boardpasswordfind}">
 				${p }
 			</a>
 			&nbsp;&nbsp;
@@ -99,13 +99,10 @@
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
-<!-- 
-	다음페이지 그룹으로 이동
-	만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
- -->
+
 <c:choose>
 	<c:when test="${requestScope.pageBean.nextPageGroup }">
-		<a href="passwordfind.do?page=${requestScope.pageBean.endPage+1 }">
+		<a href="passwordfind.do?page=${requestScope.pageBean.endPage+1 }&Boardpasswordfind=${requestScope.Boardpasswordfind}">
 			▶&nbsp;&nbsp;		
 		</a>
 	</c:when>
@@ -115,7 +112,7 @@
 </c:choose>
 
 <!-- 마지막 페이지로 이동 -->
-<a href='passwordfind.do?page=${requestScope.pageBean.totalPage}'>
+<a href='passwordfind.do?page=${requestScope.pageBean.totalPage}&Boardpasswordfind=${requestScope.Boardpasswordfind}'>
 	▷
 </a>	
 </p>

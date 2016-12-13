@@ -31,15 +31,13 @@
 	</table>
 		<br>
 		
-		
-		 	<a href="operatorupdate.do"><button id="update">수정</button></a>
+		<c:if test="${not empty sessionScope.managerID}">
+			<c:if test="${not empty sessionScope.managerPW}">
+				<a href="operatorupdate.do"><button id="update">수정</button></a>
+				<a href="operatordelete.do"><button id="delete">삭제</button></a>
+			</c:if>
+		</c:if>
 		 	
-		 
-		 	
-			<a href="operatordelete.do"><button id="delete">삭제</button></a>
-		
-		 
-		 
 			
 		
 		

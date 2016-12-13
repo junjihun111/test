@@ -31,63 +31,17 @@
 		</tr>
 	</table>
 		<br>
-		<!-- <form action='update.do' name="update" method="get">
-			<input type="submit" value="수정">
-		</form> -->
-		
-		<!-- <a href='update.do'><button id="update">수정</button></a>  <a href='delete.do'><button id="delete">삭제</button></a> 
-		 -->
-		 
-		 <a href="operatorupdate.do"><button id="update">수정</button></a>
-		 	
-		 
-		 	
-		<a href="operatordelete.do"><button id="delete">삭제</button></a>
 		
 		 
-		 
-		 
-		<!-- 
-		<form action='delete.do' name="delete" method="get">
-	 		<input type="submit" value="삭제">
-	 	</form> -->
+		<c:if test="${not empty sessionScope.managerID}">
+			<c:if test="${not empty sessionScope.managerPW}">
+			 	<a href="operatorupdate.do"><button id="update">수정</button></a>
+				 <a href="operatordelete.do"><button id="delete">삭제</button></a>
+			</c:if>
+		</c:if>
 		
-		<!-- spring-mvc 경로 잘못될 가능성 존재.-->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				
-				$("#update").on("click",function(){
-					
-					//var txt ="비밀번호:" + "<form action=updateajax.do name=updateBoxForm method=GET> <input type=password name=updatepassword> <input type=submit value=등록> <input type=reset value=초기화> </form>";
-				var txt ="비밀번호:" + "<form action=operationupdateajax.do name=updateBoxForm method=GET> <input type=password name=updatepassword> <a href=updateajax.do><button id=updateBoxForm>수정</button></a> <input type=reset value=초기화> </form>";
-					
-					$("#updatebox").html(txt);
-					
-					/* if('${sessionScope.error}'!=null)
-					{
-						var txt2='${sessionScope.error}';
-						$("#updatebox").html(txt2);
-					} */
-					
-				});
-				
-				
-	
-				/* $("#updateBoxForm").on("click",function(){
-					alert("된다.");
-					if('${sessionScope.list.board_password}'!=$("#updatepassword").val())
-					{
-						$("#updatebox").html("비밀번호가 틀렸습니다.");
-					}
-				}); */
-				
-			});
-			
-			
-			
-			
-			
-		</script>
+		 
+		
 
 </body>
 </html>

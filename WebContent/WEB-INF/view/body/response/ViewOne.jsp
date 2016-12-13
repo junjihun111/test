@@ -173,7 +173,12 @@ var errorMessage = "";
 	<%-- <fmt:parseNumber value="${requestScope.result.item.productPrice*0.8}" integerOnly="true"></fmt:parseNumber> --%>
 	<div id="price">
 	<section class="section" style="padding: 10px;"><span id="value">${requestScope.result.item.productPrice}</span>원</section>
-	<br></div> 회원이십니까? <br> <input
+	<br></div>
+	 <c:choose>
+	 <c:when test="${sessionScope.member.memberNo ==null }">
+	 회원이십니까? <br> 
+	 
+	 <input
 		type="radio" id="memberCheckYes" name="memberCheck" value="yes" >예 &nbsp; <input
 		type="radio" id="memberCheckNo" name="memberCheck" value="no">아니요 <br>
 		<div id="memberCheckForm">
@@ -182,6 +187,12 @@ var errorMessage = "";
 		회원 핸드폰 뒷자리번호 : <input type="password" name="phoneEnd" id="phoneNo"  onkeypress="if (event.keyCode<48|| event.keyCode>57)  event.returnValue=false;" 
               style='IME-MODE:disabled;'>
 		</div>
+		</c:when>
+		<c:otherwise>
+		회원 카드번호 : <input type="text" name="memberNumber" id="No" readonly="readonly" value="${sessionScope.member.memberNo }" style="background: #A4A4A4;" >
+		회원 핸드폰 뒷자리번호 : <input type="text" name="phoneEnd" id="phoneNo" readonly="readonly" value="${sessionScope.member.memberPhoneEnd }" style="background: #A4A4A4;">
+		</c:otherwise>
+		</c:choose>
 		물품수량<input type="number" id="amount" name="amount" min="1" value="1" step="1" style="width: 30px;height: 30px;">개
 	<div id="colorForm">
 		물품색상

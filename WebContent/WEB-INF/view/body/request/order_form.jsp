@@ -1,22 +1,135 @@
 <%@ page contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+.onlynum{
+	ime-mode:inactive;
+}
+</style>
+<script type="text/javascript" src="/HealthJJang/scripts/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#errordiv").hide();
+	$("#errorPassword").hide();
+	$(".onlynum").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
+	$(".onlyeng").keyup(function(){$(this).val( $(this).val().replace(/[^\!-z]/g,"") );} );
+	$("#passwordCheck").on("keyup",function(){
+		if(this.value != $("#password").val()){
+			$("#errorPassword").html("<span style='font-size:small;color:red;'>비밀번호가 같지 않습니다.</span>");
+			$("#errorPassword").show();
+		}else{
+			$("#errorPassword").html("<span style='font-size:small;color:green;'>비밀번호가 같습니다.</span>");
+			$("#errorPassword").show();
+		}
+	});
+	$("#phone2").on("keyup",function(){
+		if(this.value.length > 4){
+			alert("전화번호는 4자리 이하입니다.");
+			$("#phone2").val("");
+		}
+		
+	});
+	$("#phone3").on("keyup",function(){
+		if(this.value.length > 4){
+			alert("전화번호는 4자리 이하입니다.");
+			$("#phone3").val("");
+		}
+		
+	});
+});
+function error(){
+	var memberNo = "${sessionScope.member.memberNo}";
+	
+	var password = $("#password").val();
+	var passwordCheck = $("#passwordCheck").val();
+	var buyerName = $("#buyerName").val();
+	var postCode = $("#sample3_postcode").val();
+	var address = $("#sample3_address").val();
+	var phone2 = $("#phone2").val();
+	var phone3 = $("#phone3").val();
+	errorMessage = "";
+if(memberNo != ""){
+	if(postCode == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>우편번호를 입력하세요.</span><br>";
+	}
+	if(address == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>주소를 입력하세요.</span><br>";
+	}
+	if(phone2 == ""||phone3 == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>전화번호를 입력하세요.</span><br>";
+	}
+	if(errorMessage ==""){
+		return true;
+	}else{
+		$("#errordiv").html(errorMessage);
+		
+		$("#errordiv").show();
+		
+		return false;
+	}
+	}
+	
+	if(buyerName == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>이름을 입력하세요</span><br>";
+	}
+	if(postCode == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>우편번호를 입력하세요.</span><br>";
+	}
+	if(address == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>주소를 입력하세요.</span><br>";
+	}
+	if(phone2 == ""||phone3 == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>전화번호를 입력하세요.</span><br>";
+	}
+	if(password == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>비밀번호를 입력하세요.</span><br>";
+	}
+	if(password.length >=7){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>비밀번호는 8자 이하입니다.</span><br>";
+		
+	}
+	if(passwordCheck == ""){
+		errorMessage = errorMessage+"<span style='font-size: small;color: red;'>비밀번호 확인을 입력하세요.</span><br>";
+	}
+	if(errorMessage ==""){
+		return true;
+	}else{
+		$("#errordiv").html(errorMessage);
+		
+		$("#errordiv").show();
+		
+		return false;
+	}
+		
+	
+}
+</script>
 <h2>배송입력칸</h2>
-<form>
-${request.result.productName }
-주문상품 <input type="text" readonly="readonly" value="${requestScope.result.productName}" style="text-align: right;background-color: #A4A4A4;"><br>
-주문수량 <input type="text" readonly="readonly" value="${requestScope.result.userAmount}" style="text-align: right;background-color: #A4A4A4;"><br>
-주문가격 <input type="text" readonly="readonly" value="${requestScope.result.price}" style="text-align: right;background-color: #A4A4A4;"><br>
-분류  <input type="text" readonly="readonly" value="${requestScope.result.category}" style="text-align: right;background-color: #A4A4A4;"><br>
+<form action="/HealthJJang/addOrderation.do" onsubmit="return error();">
+<div id="errordiv"></div>
+주문상품 <input type="text" name="productName" readonly="readonly" value="${requestScope.result.productName}" style="text-align: right;background-color: #A4A4A4;"><br>
+주문수량 <input type="text" name="productAmount" readonly="readonly" value="${requestScope.result.userAmount}" style="text-align: right;background-color: #A4A4A4;"><br>
+주문가격 <input type="text" name="price" readonly="readonly" value="${requestScope.result.price}" style="text-align: right;background-color: #A4A4A4;"><br>
+분류  <input type="text" name="code" readonly="readonly" value="${requestScope.result.category}" style="text-align: right;background-color: #A4A4A4;"><br>
 
-주문자 이름 <input type="text" name="BuyerName"><br>
-우편번호:<input type="text" id="sample3_postcode" placeholder="우편번호"> -
+<c:choose>
+<c:when test="${sessionScope.member.memberNo == null }">
+주문자 이름 <input type="text" name="buyerName" id="buyerName"><br>
+</c:when>
+<c:otherwise>
+주문자 이름 <input type="text" readonly="readonly" value="${sessionScope.member.memberName}" name="buyerName" style="text-align: right;background-color: #A4A4A4;"><br>
+</c:otherwise>
+</c:choose>
+
+
+우편번호:<input type="text" name="postalNumber" id="sample3_postcode" placeholder="우편번호"> -
 <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
 
 <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 <img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
 </div>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="sample3_address" class="d_form large" placeholder="주소">
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="sample3_address" name="orderationAddress" class="d_form large" placeholder="주소">
+ 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     // 우편번호 찾기 찾기 화면을 넣을 element
@@ -76,8 +189,19 @@ ${request.result.productName }
         element_wrap.style.display = 'block';
     }
 </script>
-&nbsp;&nbsp;<br>연락처 <select><option>010</option><option>011</option><option>016</option><option>017</option></select>
-&nbsp; <input type="text" name="phoneMiddel" size="4"> &nbsp; <input type="text" name="phoneEnd" size="4"><br>
-
-
+&nbsp;&nbsp;<br>연락처 <select name="phone1"><option>010</option><option>011</option><option>016</option><option>017</option></select>
+&nbsp; <input class="onlynum" type="text" id="phone2" name="phone2" style="ime-mode:inactive;" size="4"> &nbsp; <input type="text" id="phone3" style="ime-mode:inactive;" class="onlynum" name="phone3" size="4"><br>
+<c:choose>
+<c:when test="${sessionScope.member == null }">
+<strong>비밀번호를 입력하세요</strong><br>
+비밀번호 : <input type="password" name="password" id="password"><br>
+비밀번호 확인 : <input type="password" id="passwordCheck">
+</c:when>
+<c:otherwise>
+<input type="hidden" name="memberNo" value="${sessionScope.member.memberNo }">
+</c:otherwise>
+</c:choose>
+<div id="errorPassword"></div>
+<input type="submit" value="구매하기" >
+<input type="hidden" name="productNo" value="${requestScope.result.productNo}">
 </form>

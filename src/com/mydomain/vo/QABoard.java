@@ -1,97 +1,74 @@
 package com.mydomain.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class QABoard {
-	private int QABoardNo;
-	private String QABoardName;
-	private int QABoardIdentificationnumber;
-	private int QABoardOrder;
-	private int QABoardClass;
-	private String QABoardContent;
-	private Date QABoardDate;
-	private String QABoardWriter;
-
-	public int getQABoardNo() {
-		return QABoardNo;
-	}
-
-	public void setQABoardNo(int qABoardNo) {
-		QABoardNo = qABoardNo;
-	}
-
-	public String getQABoardName() {
-		return QABoardName;
-	}
-
-	public void setQABoardName(String qABoardName) {
-		QABoardName = qABoardName;
-	}
-
-	public int getQABoardIdentificationnumber() {
-		return QABoardIdentificationnumber;
-	}
-
-	public void setQABoardIdentificationnumber(int qABoardIdentificationnumber) {
-		QABoardIdentificationnumber = qABoardIdentificationnumber;
-	}
-
-	public int getQABoardOrder() {
-		return QABoardOrder;
-	}
-
-	public void setQABoardOrder(int qABoardOrder) {
-		QABoardOrder = qABoardOrder;
-	}
-
-	public int getQABoardClass() {
-		return QABoardClass;
-	}
-
-	public void setQABoardClass(int qABoardClass) {
-		QABoardClass = qABoardClass;
-	}
-
-	public String getQABoardContent() {
-		return QABoardContent;
-	}
-
-	public void setQABoardContent(String qABoardContent) {
-		QABoardContent = qABoardContent;
-	}
-
-	public Date getQABoardDate() {
-		return QABoardDate;
-	}
-
-	public void setQABoardDate(Date qABoardDate) {
-		QABoardDate = qABoardDate;
-	}
-
-	public String getQABoardWriter() {
-		return QABoardWriter;
-	}
-
-	public void setQABoardWriter(String qABoardWriter) {
-		QABoardWriter = qABoardWriter;
-	}
-
+public class QABoard implements Serializable{
+	private int no;
+	private String title;
+	private String contents;
+	private String writer;
+	private Date wdate;
+	private int grp;
+	private int seq;
+	private int lvl;
 	
 	
+
+	
+
+
+
+	public QABoard(int no, String title, String contents, String writer, Date wdate, int grp, int seq, int lvl) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.contents = contents;
+		this.writer = writer;
+		this.wdate = wdate;
+		this.grp = grp;
+		this.seq = seq;
+		this.lvl = lvl;
+	}
+
+
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "QABoard [no=" + no + ", title=" + title + ", contents=" + contents + ", writer=" + writer + ", wdate="
+				+ wdate + ", grp=" + grp + ", seq=" + seq + ", lvl=" + lvl + "]";
+	}
+
+
+
+
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + QABoardClass;
-		result = prime * result + ((QABoardContent == null) ? 0 : QABoardContent.hashCode());
-		result = prime * result + ((QABoardDate == null) ? 0 : QABoardDate.hashCode());
-		result = prime * result + QABoardIdentificationnumber;
-		result = prime * result + ((QABoardName == null) ? 0 : QABoardName.hashCode());
-		result = prime * result + QABoardNo;
-		result = prime * result + QABoardOrder;
-		result = prime * result + ((QABoardWriter == null) ? 0 : QABoardWriter.hashCode());
+		result = prime * result + ((contents == null) ? 0 : contents.hashCode());
+		result = prime * result + grp;
+		result = prime * result + lvl;
+		result = prime * result + no;
+		result = prime * result + seq;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((wdate == null) ? 0 : wdate.hashCode());
+		result = prime * result + ((writer == null) ? 0 : writer.hashCode());
 		return result;
 	}
+
+
+
+
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -102,61 +79,202 @@ public class QABoard {
 		if (getClass() != obj.getClass())
 			return false;
 		QABoard other = (QABoard) obj;
-		if (QABoardClass != other.QABoardClass)
-			return false;
-		if (QABoardContent == null) {
-			if (other.QABoardContent != null)
+		if (contents == null) {
+			if (other.contents != null)
 				return false;
-		} else if (!QABoardContent.equals(other.QABoardContent))
+		} else if (!contents.equals(other.contents))
 			return false;
-		if (QABoardDate == null) {
-			if (other.QABoardDate != null)
+		if (grp != other.grp)
+			return false;
+		if (lvl != other.lvl)
+			return false;
+		if (no != other.no)
+			return false;
+		if (seq != other.seq)
+			return false;
+		if (title == null) {
+			if (other.title != null)
 				return false;
-		} else if (!QABoardDate.equals(other.QABoardDate))
+		} else if (!title.equals(other.title))
 			return false;
-		if (QABoardIdentificationnumber != other.QABoardIdentificationnumber)
-			return false;
-		if (QABoardName == null) {
-			if (other.QABoardName != null)
+		if (wdate == null) {
+			if (other.wdate != null)
 				return false;
-		} else if (!QABoardName.equals(other.QABoardName))
+		} else if (!wdate.equals(other.wdate))
 			return false;
-		if (QABoardNo != other.QABoardNo)
-			return false;
-		if (QABoardOrder != other.QABoardOrder)
-			return false;
-		if (QABoardWriter == null) {
-			if (other.QABoardWriter != null)
+		if (writer == null) {
+			if (other.writer != null)
 				return false;
-		} else if (!QABoardWriter.equals(other.QABoardWriter))
+		} else if (!writer.equals(other.writer))
 			return false;
 		return true;
 	}
-	
-	
 
-	@Override
-	public String toString() {
-		return "QABoard [QABoardNo=" + QABoardNo + ", QABoardName=" + QABoardName + ", QABoardIdentificationnumber="
-				+ QABoardIdentificationnumber + ", QABoardOrder=" + QABoardOrder + ", QABoardClass=" + QABoardClass
-				+ ", QABoardContent=" + QABoardContent + ", QABoardDate=" + QABoardDate + ", QABoardWriter="
-				+ QABoardWriter + "]";
-	}
-	
-	
 
-	public QABoard(int qABoardNo, String qABoardName, int qABoardIdentificationnumber, int qABoardOrder,
-			int qABoardClass, String qABoardContent, Date qABoardDate, String qABoardWriter) {
-		super();
-		QABoardNo = qABoardNo;
-		QABoardName = qABoardName;
-		QABoardIdentificationnumber = qABoardIdentificationnumber;
-		QABoardOrder = qABoardOrder;
-		QABoardClass = qABoardClass;
-		QABoardContent = qABoardContent;
-		QABoardDate = qABoardDate;
-		QABoardWriter = qABoardWriter;
+
+
+
+
+
+	public int getNo() {
+		return no;
 	}
+
+
+
+
+
+
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+
+
+
+
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+
+
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+
+
+
+
+	public String getContents() {
+		return contents;
+	}
+
+
+
+
+
+
+
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+
+
+
+
+
+
+
+	public String getWriter() {
+		return writer;
+	}
+
+
+
+
+
+
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
+
+
+
+
+
+
+	public Date getWdate() {
+		return wdate;
+	}
+
+
+
+
+
+
+
+	public void setWdate(Date wdate) {
+		this.wdate = wdate;
+	}
+
+
+
+
+
+
+
+	public int getGrp() {
+		return grp;
+	}
+
+
+
+
+
+
+
+	public void setGrp(int grp) {
+		this.grp = grp;
+	}
+
+
+
+
+
+
+
+	public int getSeq() {
+		return seq;
+	}
+
+
+
+
+
+
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+
+
+
+
+
+
+
+	public int getLvl() {
+		return lvl;
+	}
+
+
+
+
+
+
+
+	public void setLvl(int lvl) {
+		this.lvl = lvl;
+	}
+
+
+
+
+
+
 
 	public QABoard() {
 	}

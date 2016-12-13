@@ -5,56 +5,120 @@
 
 <tiles-definitions>
 
- 	
- 	<definition name="template" template="/WEB-INF/view/layout/template.jsp">
- 		<put-attribute name="header" value="/WEB-INF/view/layout/header.jsp"/>
- 		<put-attribute name="nav" value="/WEB-INF/view/layout/side_menu.jsp"/>
- 		<!-- sidemenu -->
- 		<put-attribute name="footer" value="/WEB-INF/view/layout/footer.jsp"/>
- 	</definition>
- 	 <!-- <definition name="*/*/*.tiles" extends="template">
- 	 name /를 기준으로 앞에가 {1} 뒤에가 {2}
- 	 	<put-attribute name="body" value="{1}/WEB-INF/view/body/{2}/{3}.jsp"/>
- 	 
- 	 </definition> -->
- 	 
-	 <!-- item 등록 폼 -->
-	 <definition name="itemAdd.tiles" extends="template">
-	 <put-attribute name="body" value="/WEB-INF/view/body/request/itemAdd_form.jsp"></put-attribute>
-	 </definition>
-	 <definition name="viewItem.tiles" extends="template">
-	 <put-attribute name="body" value="/WEB-INF/view/body/response/ViewItem.jsp"></put-attribute>
-	 </definition>
-	 <!-- item 하나 조회 -->
-	 <definition name="viewItemOne.tiles" extends="template">
-	 <put-attribute name="body" value="/WEB-INF/view/body/response/ViewOne.jsp"></put-attribute>
-	 </definition>
-	 <!-- item 수정 폼 -->
+
+	<definition name="template" template="/WEB-INF/view/layout/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/view/layout/header.jsp" />
+		<put-attribute name="nav" value="/WEB-INF/view/layout/side_menu.jsp" />
+		<!-- sidemenu -->
+		<put-attribute name="footer" value="/WEB-INF/view/layout/footer.jsp" />
+	</definition>
+
+
+	<definition name="updateSuccessre.tiles" extends="template">
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/Board/updateSuccess.jsp"></put-attribute>
+	</definition>
+
+	<definition name="insertListre.tiles" extends="template">
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/Board/insertSuccess.jsp"></put-attribute>
+	</definition>
+
+	<definition name="operationinsertListre.tiles" extends="template">
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/Board/operationinsertList.jsp"></put-attribute>
+	</definition>
+
+	<definition name="operatorinsertSuccessre.tiles" extends="template">
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/Board/operatorinsertSuccessre.jsp"></put-attribute>
+	</definition>
+
+
+
+
+	<!-- item 등록 폼 -->
+
+	<definition name="itemAdd.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/request/itemAdd_form.jsp" />
+
+	</definition>
+
+
+	<definition name="viewItem.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/response/ViewItem.jsp" />
+
+	</definition>
+
+	<!-- item 하나 조회 -->
+
+
+
+	<definition name="viewItemOne.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/response/ViewOne.jsp" />
+
+	</definition>
+
+	<!-- item 수정 폼 -->
+
+
+
 	<definition name="itemUpdate.tiles" extends="template">
-	 <put-attribute name="body" value="/WEB-INF/view/body/request/itemUpdate_form.jsp"></put-attribute>
-	 </definition>
- 	<definition name="orderForm.tiles" extends="template">
- 	 <put-attribute name="body" value="/WEB-INF/view/body/request/order_form.jsp"></put-attribute>
- 	</definition>
- 	 
- 	 <definition name="*/*.tiles" extends="template">
- 	 <!-- name /를 기준으로 앞에가 {1} 뒤에가 {2} -->
- 	 	<put-attribute name="body" value="/WEB-INF/view/body/{1}/{2}.jsp"/>
- 	 
- 	 </definition>
- 	 
- 	 <definition name="*.tiles" extends="template">
- 	 	<put-attribute name="body" value="/WEB-INF/view/body/{1}.jsp"/>
- 	 
- 	 </definition>
- 	 
- 	 
- 	 
- 	
-	 
- 	 
- 	 
- 	 
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/request/itemUpdate_form.jsp" />
+
+	</definition>
+
+
+	<definition name="orderForm.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/request/order_form.jsp" />
+
+	</definition>
+
+
+	<definition name="payment.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/response/payment.jsp" />
+
+	</definition>
+
+
+	<definition name="passwordFrom.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/request/passwordForm.jsp" />
+
+	</definition>
+
+
+	<definition name="ViewOrderer.tiles" extends="template">
+
+		<put-attribute name="body"
+			value="/WEB-INF/view/body/response/viewOrder.jsp" />
+
+	</definition>
+	<definition name="*/*.tiles" extends="template">
+		<!-- name /를 기준으로 앞에가 {1} 뒤에가 {2} -->
+		<put-attribute name="body" value="/WEB-INF/view/body/{1}/{2}.jsp" />
+
+	</definition>
+
+	<definition name="*.tiles" extends="template">
+		<put-attribute name="body" value="/WEB-INF/view/body/{1}.jsp" />
+
+	</definition>
+
+
 </tiles-definitions>
 
 

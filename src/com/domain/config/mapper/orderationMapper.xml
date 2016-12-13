@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="orderation">
+<!-- 
+	1.주문등록
+	2.주문조회
+	3.주문 번호로 조회
+	4.주문상태 변경
+	5.주문삭제
+	6.주문수정
+ -->
+ <insert id="insertOrderation" parameterType="Orderation">
+ insert into orderation values(#{orderationNo},#{buyerName},#{phone2},#{phone3},#{orderationAddress},#{postalNumber},#{orderationPrice},#{phone1},#{productAmount},#{productName},#{code})
+ </insert>
+<update id="updateOrderation" parameterType="Orderation">
+update orderation
+set phone1 = #{phone1},
+	 phone2 = #{phone2},
+	 phone3 = #{phone3},
+	 orderation_address = #{orderationAddress},
+	 postalnumber = #{postalNumber}
+where orderation_no = #{orderationNo}
+</update>
+<update id="updateOrderationCode" parameterType="java.util.Map">
+update orderation
+set code = #{code}
+where orderation_no = #{orderationNo}
+</update>
+<delete id="deleteOrderationCode" parameterType="String">
+delete from orderation where code = #{value}
+
+</delete>
+<delete id="deleteOrderation" parameterType="String">
+delete from orderation where orderation_no = #{orderationNo}
+</delete>
+<select id="selectOrderationByNo" resultType="Orderation" parameterType="String">
+select orderation_no orderationNo,product_name productName,buyerName,phone1,phone2,phone3,orderation_address orderationAddress,postalNumber,code,orderation_price orderationPrice,product_amount productAmount 
+from orderation 
+where orderation_no = #{value}
+</select>
+<select id="selectOrderation" resultType="Orderation">
+select orderation_no orderationNo,product_name productName,buyerName,phone1,phone2,phone3,orderation_address orderationAddress,postalNumber,code,orderation_price orderationPrice ,product_amount productAmount
+from orderation
+</select>
+<select id="selectOrdertaionCount" resultType="_int" parameterType="String">
+select count(*) from orderation where code = #{code}
+
+</select>
+</mapper>

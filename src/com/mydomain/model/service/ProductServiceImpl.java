@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.domain.board.dao.CodeDao;
 import com.domain.board.dao.ColorDao;
 import com.domain.board.dao.MemberDao;
+import com.domain.board.dao.OrderDao;
+import com.domain.board.dao.OrderationDao;
 import com.domain.board.dao.ProductDao;
 import com.domain.board.dao.TColorDao;
 import com.domain.common.util.PagingBean;
@@ -17,6 +19,8 @@ import com.mydomain.vo.Code;
 import com.mydomain.vo.CodePage;
 import com.mydomain.vo.Color;
 import com.mydomain.vo.Member;
+import com.mydomain.vo.Order;
+import com.mydomain.vo.Orderation;
 import com.mydomain.vo.Product;
 import com.mydomain.vo.TColor;
 
@@ -35,6 +39,10 @@ public class ProductServiceImpl implements ProductService {
 	private TColorDao tColorDao;
 	@Autowired
 	private MemberDao memberDao;
+	@Autowired
+	private OrderationDao orderationDao;
+	@Autowired
+	private OrderDao orderDao;
 	
 	
 	@Override
@@ -168,6 +176,109 @@ public class ProductServiceImpl implements ProductService {
 	public void amountUpdate(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		dao.updateamount(map);
+	}
+
+	@Override
+	public void addOrderation(Orderation orderation) {
+		// TODO Auto-generated method stub
+		orderationDao.insertOrderation(orderation);
+	}
+
+	@Override
+	public void modifyOrderation(Orderation orderation) {
+		// TODO Auto-generated method stub
+		orderationDao.updateOrderation(orderation);
+	}
+
+
+	@Override
+	public void removeOrderaion(String orderationNo) {
+		// TODO Auto-generated method stub
+		orderationDao.deleteOrderation(orderationNo);
+	}
+
+	@Override
+	public Map<String, Object> orderationList(CodePage codePage) {
+		// TODO Auto-generated method stub
+	/*Map<String, Object> result = new HashMap<String, Object>();
+		List<Product> list = dao.selectProductPageList(codePage);
+		System.out.println(list);
+		System.out.println("-------");
+		System.out.println(list.isEmpty());
+		System.out.println(list.size());
+		if(list.isEmpty()){
+		
+			return result;
+		}
+		result.put("list",list );
+		result.put("pageBean", new PagingBean(dao.selectProductCount(codePage.getFrame()), codePage.getPage()));
+		result.put("code", codePage.getFrame());
+		return result;
+	 * 
+	 * */
+		Map<String,Object> result = new HashMap<String,Object>();
+		List<Orderation> list = orderationDao.selectOrderation();
+		if(list.isEmpty()){
+			return result;
+		}
+		result.put("list", list);
+		result.put("pageBean", new PagingBean(orderationDao.selectOrderationCount(codePage.getFrame()),codePage.getPage()));
+		result.put("code",codePage.getFrame());
+		return result;
+	}
+
+	@Override
+	public Orderation getOrderation(String orderationNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void modifyOrderationCode(String code, String orderationNo) {
+		// TODO Auto-generated method stub
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("code", code);
+		map.put("orderationNo", orderationNo);
+		orderationDao.updateOrderationCode(map);
+	}
+
+	@Override
+	public void removeOrderationCode(String code) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addOrder(Order order) {
+		// TODO Auto-generated method stub
+		orderDao.insertOrder(order);
+	}
+
+	@Override
+	public void removeOrder(String password) {
+		// TODO Auto-generated method stub
+		orderDao.deleteOrder(password);
+	}
+
+	@Override
+	public List<Order> getOrder(String password) {
+		// TODO Auto-generated method stub
+		return orderDao.selectOrderByNo(password);
+	}
+
+	@Override
+	public Member getMemberName(int memberNo) {
+		// TODO Auto-generated method stub
+		return memberDao.selectNameByMember(memberNo);
+	}
+
+	@Override
+	public List<Order> getOrderByName(String password, String orderName) {
+		// TODO Auto-generated method stub
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("password", password);
+		map.put("orderName", orderName);
+		return orderDao.selectOrderByName(map);
 	}
 
 	

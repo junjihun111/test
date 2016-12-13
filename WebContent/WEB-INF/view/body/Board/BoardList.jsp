@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
- #bbs td {
+#bbs td {
     padding-top: 3px;
     padding-bottom: 3px;
     border-bottom: 1px solid silver;
@@ -24,6 +24,79 @@
     text-decoration: underline;
 } 
 
+table{
+ border-collapse: collapse;
+ align:center;
+}
+
+/* *,body{
+ font-family: "맑은 고딕";
+ margin:0px;
+ padding:0px;
+ font-size:11px;
+}
+caption{
+ background: url(images/title_event.png) no-repeat center center;
+ width:700px;
+ height:500px;
+}
+caption span{
+ display:none;
+}
+table{
+ border-collapse: collapse;
+}
+td{
+ border-bottom: 1px solid #000;
+ text-align:center;
+ padding:5px 10px;
+}
+th{
+ height:34px;
+ padding:0px 0px;
+ font-size:12px;
+}
+th span{
+/*  border-right:1px solid #666; */
+
+/*
+ background: url(images/bar7_1.png) no-repeat right 10px;
+  display:block;
+  padding:0px 0px 2px 0px;
+}
+tr:FIRST-CHILD{
+ 
+}
+tr:last-CHILD{
+ border-bottom: 2px solid #000;
+}
+th:FIRST-CHILD{
+ background: url(images/table_header_bg.png) repeat-x;
+}
+ /* 2열의 th 내용*/ 
+ /*
+th:nth-child(2) {
+ background: url(images/table_header_bg.png) center top repeat-x;
+} 
+th:nth-child(3) {
+ background: url(images/table_header_bg.png) center top repeat-x;
+} 
+th:nth-child(4) {
+ background: url(images/table_header_bg.png) center top repeat-x;
+} 
+th:nth-child(5) {
+ background: url(images/table_header_bg.png) right top repeat-x;
+} 
+.bb{
+ border:none;
+}
+td{
+ background: url(images/bar7_1.png) no-repeat right bottom;
+}
+
+ */
+
+
 </style>
 </head>
 <body>
@@ -31,25 +104,27 @@
 
 <jsp:include page="/WEB-INF/view/body/boardmenu.jsp"/>
 <br>
-<table border=2 id="bbs">
-	<thead>
-			<tr>
-				<td width=500 height=50>번호</td>
-				<td width=500 height=50>제목</td>
-				<td width=500 height=50>공지일</td>
-				<td width=500 height=50>조회수</td>
-				<td width=500 height=50>작성자</td>
+
+<caption><span><h2>공용게시판</h2></span></caption>
+
+<table border=2 >
+	
+			<tr class="aa">
+				<th width=500 height=100><span><h2>번호</h2></span></th>
+				<th width=500 height=100><span><h2>제목</h2></span></th>
+				<th width=500 height=100><span><h2>공지일</h2></span></th>
+				<th width=500 height=100><span><h2>조회수</h2></span></th>
+				<th width=500 height=100><span class="bb"><h2>작성자</h2></span></th>
 			</tr>
-	</thead>
+
 	<tbody>
 		<c:forEach items="${sessionScope.BoardList}" var="board" varStatus="cnt">
 		<tr>
-			<td>${board.board_no} </td>
-			<td><a href="insertList.do?page=${board.board_no }">${board.board_name}
-			</a></td>
-			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.board_date}"/></td>
-			<td>${board.board_count}</td>
-			<td>${board.board_writer}</td>
+			<td><span><h3>${board.board_no}</h3></span></td>
+			<td><span><h3><a href="insertList.do?page=${board.board_no }">${board.board_name}</a></h3></span></td>
+			<td><span><h3><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.board_date}"/></h3></span></td>
+			<td><span><h3>${board.board_count}</h3></span></td>
+			<td><span><h3>${board.board_writer}</h3></span></td>
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -119,25 +194,21 @@
 </a>	
 </p>
 
-<!-- <form action="namefind.do" enctype="application/x-www-form-urlencoded">
-<input type="text" id="Boardnamefind" name="Boardnamefind">
-
-	<a href="namefind.do"><button id=board_list_name>이름으로 조회</button></a>
-</form>
-<br>
-<form action="passwordfind.do" enctype="UTF-8">
-<input type="text" id="Boardpasswordfind" name="Boardpasswordfind">
-
-	<a href="passwordfind.do"><button id=board_list_password>비밀번호로 조회</button></a>
-</form>
- -->
-<!-- javascript 와 연동. -->
-<input type="text" id="Boardnamefind" name="Boardnamefind">
-<a href="namefind.do?page=1&시소"><button id=board_list_name>이름으로 조회</button></a>
 <br>
 
-<input type="text" id="Boardpasswordfind" name="Boardpasswordfind">
-<a href="passwordfind.do?page=1&시소"><button id=board_list_password>비밀번호로 조회</button></a>
+<form action="namefind.do">
+	<input type="hidden" name="page" value="1">
+	제목으로 찾기 : <input type="text" id="Boardnamefind" name="Boardnamefind">
+	<input type="submit" value="검색">
+</form>
+
+<form action="passwordfind.do">
+	<input type="hidden" name="page" value="1">
+	작성자로 찾기 : <input type="text" id="Boardpasswordfind" name="Boardpasswordfind">
+
+	<input type="submit" value="검색">
+</form>
+
 
 
 

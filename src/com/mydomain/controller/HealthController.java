@@ -16,6 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,10 +31,15 @@ import com.mydomain.vo.Board;
 import com.mydomain.vo.Code;
 import com.mydomain.vo.CodePage;
 import com.mydomain.vo.Color;
+import com.mydomain.vo.ManagerInfo;
 import com.mydomain.vo.Member;
 import com.mydomain.vo.OperatorBoard;
+import com.mydomain.vo.Order;
+import com.mydomain.vo.Orderation;
 import com.mydomain.vo.Product;
+import com.mydomain.vo.QABoard;
 import com.mydomain.vo.TColor;
+import com.mydomain.vo.dagle;
 
 @Controller
 public class HealthController {
@@ -53,55 +59,17 @@ public class HealthController {
 	}//value="/ViewList.do"
 	
 	
-	/*@RequestMapping("findById")
-	@ResponseBody //
-	
-		@ResponseBody : Handler 메소드 선언부에 추가하는 Annotation
-		-Handler 메소드가 return 하는 값을 바로 HTTP 응답 body 에 넣어서 응답하도록 처리(View 를 찾니 않는다.)
-		-Return 해주는 값을 HTTP 응답 메세지에 맞게 변환해서 출력한다. -> HttpMessageConverter 사용.
-		-리턴값의 종류에 따라 다양한 HttpMessageConverter 가 제공됨.
-		
-		응답메세지로 바꿔주는 아이.
-		-JSON 문자열 응답시
-			-MappingJackson2HttpMessageConverter 사용.
-			-<mvc:annotation-driven/> 선언시 자동으로 등록됨. 단 classpath 상에 Jackson API 가 있는 경우.
-			return : VO -> {}
-					List/배열 -> []
-	
-	//이것을 바꿀때 사용하는 API 가 존재하지 않는다 즉 String 은 제공하는데 JSON 은 바꿔주지 않는다.
-	//JSONOBject 역할을 하는 역할을 등록 Jackson 사용 --> 메세지 컨버터를 등록해준다. 
-	public Member findById(String id) //요청파라미터 조회.
-	{
-		System.out.println("ID 는 " + id);
-		//Business Logic - MemberService.getMemberById(id) 호출
-		Member member = service.getMemberById(id);
-		System.out.println(member);
-		return member;
-	} 
-	
-	@RequestMapping("getList")
-	@ResponseBody
-	public List getList()
-	{
-		List list = service.getMemberList();
-		System.out.println(list);
-		return list;
-	}*/
 	
 	@RequestMapping("/Board/BoardList")
 	public ModelAndView getList(String page, ModelMap map, HttpSession session, HttpServletRequest request)
 	{
 		
-		/*List list = service.equals("d");*/
 		List list2=service.findBoardCode();
-		//System.out.println(list2);
+	
 		 
 		List list=service.getBoardList();
 		
-		//map.addAttribute("select", list2);
 		session.setAttribute("select",list2);
-		//map.addAttribute("BoardList", list);
-		//session.setAttribute("BoardList", list);
 		
 		int pagingno=1;
 		
@@ -122,17 +90,12 @@ public class HealthController {
 		}
 		
 		
-		//System.out.println(pagingmap.get("list"));
-		//System.out.println(pagingmap.get("pagingBean"));
-		
-		//System.out.println(list);
-		//return "/WEB-INF/view/body/Board/BoardList.jsp";
 		return new ModelAndView("Board/BoardList.tiles");
 		
 	}
 	
 	@RequestMapping(value="/Board/insertSuccess", method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView insert(String header, String name, String content, String password, String writer, HttpSession session, HttpServletRequest request)
+	public String insert(String header, String name, String content, String password, String writer, HttpSession session, HttpServletRequest request)
 	{
 
 		Board board=null;
@@ -149,19 +112,28 @@ public class HealthController {
 		{
 			request.setAttribute("errorinsert", "빈값이 존재합니다.");
 			System.out.println("칸중에 빈값이 있습니다.");
-			return new ModelAndView("Board/insert.tiles");
+			return "Board/insert.tiles";
 		}else
 		{
 			System.out.println(board);
 			service.insertBoard(board);
 		
 			session.setAttribute("list", board);
-
-			return new ModelAndView("Board/insertSuccess.tiles","errorinsert","빈값이 존재합니다.");
+			request.setAttribute("errorinsert", "빈값이 존재합니다.");
+			
+			return "redirect:insertSuccessre.do";
 		}
 	
-		//return new ModelAndView("downloadView","downFile",fileName)
 	}
+	
+	
+	@RequestMapping("/insertSuccessre")
+	public String insertSuccessre()
+	{
+		return "Board/insertSuccess.tiles";
+	}
+	
+	
 	
 	@RequestMapping("/Board/delete")
 	public ModelAndView delete(HttpSession session)
@@ -186,7 +158,7 @@ public class HealthController {
 	}
 	
 	@RequestMapping("/Board/updateSuccess")
-	public ModelAndView updateSuccess(HttpSession session, HttpServletRequest request)
+	public String updateSuccess(HttpSession session, HttpServletRequest request)
 	{
 		Board board=(Board) session.getAttribute("list");
 		
@@ -199,6 +171,14 @@ public class HealthController {
 		String password=request.getParameter("password");
 		String writer=request.getParameter("writer");
 		
+		if(header.equals("")||name.equals("")||content.equals("")||password.equals("")||writer.equals(""))
+		{
+			request.setAttribute("errorupdate", "빈값이 존재합니다.");
+			System.out.println("칸중에 빈값이 있습니다.");
+			return "Board/update.tiles";
+		}
+		
+		
 		board=new Board(no,header,name,content,date,count,password, writer);
 		
 		int count1=service.updateBoard(board);
@@ -206,20 +186,75 @@ public class HealthController {
 		System.out.println(count1);*/
 		session.setAttribute("list", board);
 		
-		return new ModelAndView("Board/updateSuccess.tiles");
+		return "redirect:updateSuccessre.do";
 	}
 	
-	@RequestMapping("/Board/insertList")
-	public ModelAndView insertList(String page, ModelMap map,HttpSession session,HttpServletRequest request)
+	@RequestMapping("/updateSuccessre")
+	public String updateSuccessre()
 	{
+		return "Board/updateSuccess.tiles";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("/Board/dagleinsert")
+	public String dagleinsert(String password, String content, String writer, HttpSession session)
+	{
+		Board board=(Board)session.getAttribute("list");
+		System.out.println(board.getBoard_no());
+		int no=board.getBoard_no();
+		dagle dag=null;
+		Date date=new Date(System.currentTimeMillis());
+		
+		System.out.println(content + writer);
+		if(content.equals("")||writer.equals(""))
+		{
+			session.setAttribute("errorcontent", "내용이 비어있습니다.");
+			session.setAttribute("errorwriter", "작성자칸이 비어있습니다.");
+			return "Board/insertSuccess.tiles";
+		}
+		else
+		{
+		
+		session.removeAttribute("errorcontent");
+		session.removeAttribute("errorwriter");
+		System.out.println(password);
+		
+		dag=new dagle(no,content,date,0,writer,password);
+		
+		
+		service.insertdagle(dag);
+		List listjoin = service.selectjoin(no);
+		session.setAttribute("listjoin", listjoin);
+		
+		return "redirect:insertSuccessre.do";
+		}
+	}
+	
+	
+	
+	@RequestMapping("/Board/insertList")
+	public String insertList(String page, ModelMap map,HttpSession session,HttpServletRequest request)
+	{
+	
 		Board board=null;
-		//board = service.selectBoardNo(session.getAttribute("list"));
 		
 		request.setAttribute("list", board);
 		Integer no=new Integer(page);
 
 		int no1=no;
 		
+		List listjoin = service.selectjoin(no1);
+		
+		
+		
+		System.out.println(listjoin);
 		List list=(List)map.get("BoardList");
 		//board=(Board) list.get(board_no);
 		
@@ -228,39 +263,114 @@ public class HealthController {
 		service.updateCount(board);
 		
 		session.setAttribute("list",board);
+		session.setAttribute("listjoin", listjoin);
+
+		session.removeAttribute("errorcontent");
+		session.removeAttribute("errorwriter");
 		
-		
-		return new ModelAndView("Board/insertSuccess.tiles");
+		return "redirect:insertSuccessre.do";
 	}
 	
-	@RequestMapping("/Board/main")
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("/Board/mainBoard")
 	public String login(HttpSession session)
 	{
-		session.setAttribute("managerID", "manager");
-		session.setAttribute("managerPW", "pw");
 		
-		System.out.println("새로운 메인이다.");
-		return "Board/main.tiles";
+		return "Board/mainBoard.tiles";
+	
 	}
 	
-	@RequestMapping("/Board/mainSuccess")
-	public String mangerSuccess(String managerid, String managerpw)
+	@RequestMapping("/mainguest1")
+	public String person(HttpSession session)
 	{
+		session.removeAttribute("managerID");
+		session.removeAttribute("managerPW");
 		
-		if(managerid.equals("manager"))
+		return "mainguest1.tiles";
+	}
+	
+	@RequestMapping("/mainSuccess")
+	public String mangerSuccess(@ModelAttribute ManagerInfo member, BindingResult errors, HttpServletRequest request, HttpSession session)
+	{
+		ManagerInfo member2=null;
+		
+		List list=service.selectMember();
+		
+		member2=(ManagerInfo)list.get(0);
+		
+		String failMessage="";
+		String failMessagepw="";
+		
+		String failMessageidempty="id는 필수 입력사항입니다.";
+		request.setAttribute("failMessageidempty", failMessageidempty);
+		String failMessagepwempty="pw는 필수 입력사항입니다.";
+		request.setAttribute("failMessagepwempty", failMessagepwempty);
+		
+		if(!(member.getManagerId().equals(member2.getManagerId())))
 		{
-			if(managerpw.equals("pw"))
+			failMessage="ID가 다릅니다.";
+			request.setAttribute("failMessage", failMessage);
+			session.removeAttribute("managerID");
+			session.removeAttribute("managerPW");
+			
+			if(!(member.getManagerPw().equals(member2.getManagerPw())))
 			{
-				return "Board/mainSuccess.tiles";
+				failMessagepw="PW가 다릅니다.";
+				request.setAttribute("failMessagepw", failMessagepw);
+				session.removeAttribute("managerID");
+				session.removeAttribute("managerPW");
+				return "/main.tiles";
+			}
+			return "/main.tiles";
+		}
+		
+		if(!(member.getManagerPw().equals(member2.getManagerPw())))
+		{
+			failMessagepw="PW가 다릅니다.";
+			request.setAttribute("failMessagepw", failMessagepw);
+			session.removeAttribute("managerID");
+			session.removeAttribute("managerPW");
+			if(!(member.getManagerId().equals(member2.getManagerId())))
+			{
+				failMessage="ID가 다릅니다.";
+				request.setAttribute("failMessage", failMessage);
+				session.removeAttribute("managerID");
+				session.removeAttribute("managerPW");
+				return "/main.tiles";
+			}
+			return "/main.tiles";
+		}
+		
+		
+		
+		System.out.println("새로운 메인이다.");
+		
+		
+		
+		if(member.getManagerId().equals("manager"))
+		{
+			if(member.getManagerPw().equals("pw"))
+			{
+				session.setAttribute("managerID", member2.getManagerId());
+				session.setAttribute("managerPW", member2.getManagerPw());
+				return "/main.tiles";
 			}
 			else
 			{
-				return "Board/main.tiles";
+				failMessage="입력하신정보가 다릅니다.";
+				return "/main.tiles";
 			}
 		}
 		else
 		{
-			return "Board/main.tiles";
+			return "/main.tiles";
 		}
 	}
 	
@@ -283,20 +393,11 @@ public class HealthController {
 			return "Board/insertSuccess.tiles";
 		}
 	}
-	
-	@RequestMapping("/Board/QAList")
-	public String QAList()
-	{
-		return "Board/QAList.tiles";
-	}
-	
-	
+
 	
 	@RequestMapping("/Board/namefind")
-	public ModelAndView namefind(String Boardnamefind, ModelMap map, HttpSession session, HttpServletRequest request){
+	public ModelAndView namefind(String Boardnamefind, String page, ModelMap map, HttpSession session, HttpServletRequest request){
 		
-		String page="1";
-		/*List list = service.equals("d");*/
 		List list2=service.findBoardCode();
 		//System.out.println(list2);
 		System.out.println(page);
@@ -304,11 +405,10 @@ public class HealthController {
 		System.out.println(Boardnamefind);
 		List list=service.selectBoardbyname(Boardnamefind);
 		
+		request.setAttribute("Boardnamefind", Boardnamefind);
+		
 		System.out.println(list);
-		//map.addAttribute("select", list2);
 		session.setAttribute("select",list2);
-		//map.addAttribute("BoardList", list);
-		//session.setAttribute("BoardList", list);
 		
 		int pagingno=1;
 		
@@ -321,7 +421,7 @@ public class HealthController {
 		try{
 			Map<String, Object> pagingmap=service.getListPaging(pagingno, Boardnamefind);
 			session.setAttribute("BoardList", pagingmap.get("list"));
-			//System.out.println(pagingmap.get("pageBean").toString());
+		
 			return new ModelAndView("Board/namefind.tiles","pageBean",pagingmap.get("pageBean"));
 		}catch(Exception e)
 		{
@@ -333,21 +433,19 @@ public class HealthController {
 	
 	
 	@RequestMapping("/Board/passwordfind")
-	public ModelAndView passwordfind(String Boardpasswordfind, ModelMap map, HttpSession session, HttpServletRequest request ){
+	public ModelAndView passwordfind(String Boardpasswordfind, String page, ModelMap map, HttpSession session, HttpServletRequest request ){
 		
-		String page="1";
+		
 		
 		System.out.println(Boardpasswordfind);
-		/*List list = service.equals("d");*/
 		List list2=service.findBoardCode();
-		//System.out.println(list2);
 		 
 		List list=service.selectBoardbypassword(Boardpasswordfind);
 		
-		//map.addAttribute("select", list2);
 		session.setAttribute("select",list2);
-		//map.addAttribute("BoardList", list);
-		//session.setAttribute("BoardList", list);
+		
+		request.setAttribute("Boardpasswordfind", Boardpasswordfind);
+		
 		
 		int pagingno=1;
 		
@@ -360,7 +458,6 @@ public class HealthController {
 		try{
 			Map<String, Object> pagingmap=service.getListPagingwriter(pagingno, Boardpasswordfind);
 			session.setAttribute("BoardList", pagingmap.get("list"));
-			//System.out.println(pagingmap.get("pageBean").toString());
 			return new ModelAndView("Board/passwordfind.tiles","pageBean",pagingmap.get("pageBean"));
 		}catch(Exception e)
 		{
@@ -371,11 +468,15 @@ public class HealthController {
 	}
 	
 	
+	
+	
+	
+	
 	//공지사항
 	
 	
 	@RequestMapping("/Board/operationBoardList")
-	public ModelAndView operationBoardList(String page, HttpSession session){
+	public ModelAndView operationBoardList(String page, HttpSession session, HttpServletRequest request){
 		 
 		List list=service.selectOperatorList();
 		
@@ -388,9 +489,9 @@ public class HealthController {
 		{}
 		
 		try{
-			Map<String, Object> pagingmap=(Map<String, Object>)service.selectoperatorListPaging(pagingno);
-			session.setAttribute("BoardList", pagingmap.get("list"));
-			return new ModelAndView("Board/operationBoardList.tiles","pageBeanoperator",pagingmap.get("pageBean2"));
+			Map<String, Object> pagingmap2=service.selectoperatorListPaging(pagingno);
+			session.setAttribute("operationBoardList", pagingmap2.get("list"));
+			return new ModelAndView("Board/operationBoardList.tiles","pageBeanoperator",pagingmap2.get("pageBean2"));
 		}catch(Exception e)
 		{
 			System.out.println("오류얌");
@@ -400,32 +501,31 @@ public class HealthController {
 	}
 	
 	@RequestMapping("/Board/operationinsertList")
-	public ModelAndView operationinsertList(String page, ModelMap map,HttpSession session,HttpServletRequest request)
+	public String operationinsertList(String page, ModelMap map,HttpSession session,HttpServletRequest request)
 	{
 		OperatorBoard board=null;
-		//board = service.selectBoardNo(session.getAttribute("list"));
 		
 		request.setAttribute("list", board);
 		Integer no=new Integer(page);
 
 		int no1=no;
 		
-		//List list=(List)map.get("BoardList");
-		//board=(Board) list.get(board_no);
 		
 		board=service.selectoperatorById(no);
-		//map.addAttribute("select", list2);
-		/*
-		 * 
-		service.updateCount(board);
-		*/
+		
 		service.operatorCount(board);
 		session.setAttribute("list",board);
-		return new ModelAndView("Board/operationinsertList.tiles");
+		return "redirect:operationinsertListre.do";
+	}
+	
+	@RequestMapping("/operationinsertListre")
+	public String operationinsertListre()
+	{
+		return "Board/operationinsertList.tiles";
 	}
 	
 	@RequestMapping("/Board/operatorinsertSuccess")
-	public ModelAndView operatorinsert(String header, String name, String content, String password, String writer, HttpSession session, HttpServletRequest request)
+	public String operatorinsert(String header, String name, String content, String password, String writer, HttpSession session, HttpServletRequest request)
 	{
 		
 		OperatorBoard board=null;
@@ -443,7 +543,7 @@ public class HealthController {
 		{
 			request.setAttribute("errorinsert", "빈값이 존재합니다.");
 			System.out.println("칸중에 빈값이 있습니다.");
-			return new ModelAndView("Board/operatorinsert.tiles");
+			return "Board/operatorinsert.tiles";
 		}else
 		{
 			System.out.println(board);
@@ -451,10 +551,18 @@ public class HealthController {
 		
 			session.setAttribute("list", board);
 
-			return new ModelAndView("Board/operatorinsertSuccess.tiles");
+			return "redirect:operatorinsertSuccessre.do";
 		}
-		
 	}
+	
+	@RequestMapping("/operatorinsertSuccessre")
+	public String operatorinsertSuccessre()
+	{
+		return "Board/operatorinsertSuccess.tiles";
+	}
+	
+	
+	
 	
 	@RequestMapping("/Board/operatorupdate")
 	public ModelAndView operatorupdate()
@@ -487,11 +595,9 @@ public class HealthController {
 		String writer=request.getParameter("writer");
 		
 		board=new OperatorBoard(no,header,name,content,date,count,password, writer);
-		/*
-		int count1=service.*/
+		
 		int count1=service.updateoperatorById(board);
-		/*System.out.println(board);
-		System.out.println(count1);*/
+		
 		session.setAttribute("list", board);
 		
 		return new ModelAndView("Board/operatorupdateSuccess.tiles");
@@ -499,10 +605,88 @@ public class HealthController {
 	
 	
 	
+	//답변게시판
+	@RequestMapping("/Board/QAList")
+	public ModelAndView selectQAList(HttpSession session)
+	{
+		return new ModelAndView("Board/QAList.tiles");
+	}
+	
+	
+	@RequestMapping("/Board/QAinsert")
+	public ModelAndView insertQA(String page, String QAinsert)
+	{
+		System.out.println(page);
+		System.out.println(QAinsert);
+		return new ModelAndView("Board/QAList.tiles");
+	}
+	
+	@RequestMapping("/Board/QAdrong")
+	public ModelAndView drong(String count, HttpSession session)
+	{
+		Integer no=new Integer(count);
+		List list3=service.findgrp(no);
+		
+		session.setAttribute("QAList", list3);
+		return new ModelAndView("Board/QAList.tiles"); 
+	}
+	
+	//댓글 삭제
+	@RequestMapping("/Board/deletedagle")
+	public ModelAndView dagledelete(String page,String content,HttpSession session)
+	{
+		Integer no=new Integer(page);
+		
+		Board board=(Board)session.getAttribute("list");
+		
+		
+		service.dagledelete(content);
+		
+		List listjoin = service.selectjoin(board.getBoard_no());
+		session.setAttribute("listjoin", listjoin);
+		
+		
+		return new ModelAndView("redirect:insertSuccessre.do");
+		
+	}
+	
+	@RequestMapping("/Board/updatedagle")
+	public ModelAndView dagleupdate(String page,String board_password, HttpSession session)
+	{
+		System.out.println(page);
+		
+		Integer no=new Integer(page);
+		System.out.println(board_password);
+		
+		Board board=(Board)session.getAttribute("list");
+		
+		List listjoin = service.selectjoin(board.getBoard_no());
+		
+		session.setAttribute("listjoin", listjoin);
+		
+		return new ModelAndView("redirect:insertSuccessre.do");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//// 채환이꺼
 	
 	
+
 
 	@RequestMapping(value={"/ViewList.do","/WEB-INF/view/ViewList.do"})
 	public ModelAndView ViewItemList(HttpServletRequest request, HttpServletResponse response,String page1,String code) {
@@ -597,7 +781,7 @@ public class HealthController {
 	@RequestMapping("/OrderForm.do")
 	@ResponseBody
 	public ModelAndView ViewOrderForm(int price,@RequestParam(required=false) String memberNumber,@RequestParam(required=false) String phoneEnd,int amount
-			,String productName,String code,String productNo){
+			,String productName,String code,String productNo,HttpSession session){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(productNo);
 		System.out.println(phoneEnd);
@@ -633,11 +817,12 @@ public class HealthController {
 		
 		System.out.println("----");
 		System.out.println(mNumber);
-		Member member  =  service3.getMembetByNo(new Member(mNumber,phoneEnd));
+		Member member  =  service2.getMemberName(mNumber);
 		System.out.println(member);
 		if(member == null){
 			return new ModelAndView("/ViewOne.do?no="+pProductNo,"Oerror","회원번호가 틀렸습니다 다시 입력해주세요.");
 		}
+		session.setAttribute("member", member);
 		price = (int) Math.round(price*0.8);
 		System.out.println(price);
 		 result.put("price", price);
@@ -652,8 +837,94 @@ public class HealthController {
 		
 		 return new ModelAndView("/Order.do","result",result);
 	}
+	@RequestMapping("/addOrderation.do")
+	public ModelAndView addOrderation(String productName,String productAmount,String price,String code,String buyerName,String postalNumber,String orderationAddress,String phone1,String phone2,String phone3,String productNo,@RequestParam(required=false) String memberNo
+			,@RequestParam(required = false) String password,HttpSession session
+			){
+		if(code.equals("운동기구")){
+			code = "D";
+		}else if(code.equals("운동복")){
+			code = "E";
+		}else if(code.equals("영양제")){
+			code="F";
+		}
+		
+		String orderationNo = code;
+		int randomNumber = (int) (Math.random() * 9999) + 1;
+		orderationNo = code+":"+randomNumber;
+		if(memberNo != null){
+			
+			password = memberNo;
+		}
+		System.out.println(orderationNo);
+		int tProductNo = Integer.parseInt(productNo);
+		int orderationAmount = Integer.parseInt(productAmount);
+		int orderationPrice = Integer.parseInt(price);
+		Orderation orderation = new Orderation(orderationNo,productName,buyerName,phone1,phone2,phone3,orderationAddress,postalNumber,"G",orderationAmount,orderationPrice);
+		service2.addOrderation(orderation);
+		service2.addOrder(new Order(orderationNo,buyerName,orderationAmount,password));
+//		Orderation result = service2.getOrderation(orderationNo);
+		List<Order> result = service2.getOrder(password);
+		System.out.println(code);
+		session.setAttribute("code", code);
+		session.setAttribute("password", password);
+		session.setAttribute("name",result.get(0).getOrdererName());
+		return new ModelAndView("redirect:payment.do","code",code);
+		
 	
+	}
+	@RequestMapping("/ViewOrder.do")
+	public ModelAndView ViewOrder(HttpSession session){
+		String password = (String) session.getAttribute("password");
+		Member member = (Member) session.getAttribute("member");
+		if(password == null&&member==null){
+		return new ModelAndView("/passwordFrom.do");
+		}
+		if(password == null){
+			password = Integer.toString(member.getMemberNo());
+			List<Order> result = service2.getOrder(password);
+			return new ModelAndView("/ViewOrderer.do","order",result);
+		}else if(member==null){
+			List<Order> result = service2.getOrder(password);
+			return new ModelAndView("/ViewOrderer.do","order",result);
+		}else if(member != null && password !=null){
+			List<Order> result = service2.getOrder(password);
+			return new ModelAndView("/ViewOrderer.do","order",result);
+		}
+		
+		return new ModelAndView("/passwordFrom.do");
+	}
 	
+	@RequestMapping("/memberCheck.do")
+	public ModelAndView MemberCheck(@RequestParam(required=false) String memberNo,@RequestParam(required=false)String memberPhoneEnd,
+			@RequestParam(required=false) String password, @RequestParam(required=false) String orderName,HttpSession session
+			){
+		System.out.println(memberNo);
+		if(memberNo == null&&memberPhoneEnd == null){
+			List<Order> list = (List<Order>) service2.getOrderByName(password,orderName);
+			if(list.isEmpty()){
+				return new ModelAndView("/passwordFrom.do","errorMessage","비밀번호를 잘못입력하셨습니다.");
+			}
+			session.setAttribute("password", password );
+			session.setAttribute("name", orderName);
+			List<Order> result = service2.getOrder(password);
+			return new ModelAndView("/ViewOrder.do","order",result);
+		}
+		int memNo = 0; 
+		try{
+			memNo= Integer.parseInt(memberNo);	
+		}catch (Exception e) {
+			// TODO: handle exception
+			return new ModelAndView("/passwordFrom.do","errorMessage","숫자만 입력하세요.");
+		}
+		Member member = service2.getMemberName(memNo);
+		if(member == null){
+			return new ModelAndView("/passwordFrom.do","errorMessage","비밀번호를 잘못입력하셨습니다.");
+		}
+	session.setAttribute("member", member);	
+	List<Order> result = service2.getOrder(password);
+	return new ModelAndView("/ViewOrder.do","order",result);
+	}	
 }
 
 

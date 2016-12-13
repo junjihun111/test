@@ -6,76 +6,29 @@
 		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
 		from publicBoard
 	</sql>
-
-
-
-<!-- 	<sql id="select-sql">
-		select member_id id, password, member_name name, email, mileage  from member
+		
+	<sql id="select-dept-emp-join-sql">
+		select p.board_no, p.board_header, p.board_name, p.board_content
+		,p.board_date, p.board_count, p.board_password, p.board_writer
+		, d.board_no, d.content, d.board_date, d.board_count, d.board_writer, d.board_password
+		from PUBLICBOARD p, DAGLE d
+		where p.board_no=d.board_no(+)
 	</sql>
-	
-	<insert id="insertMember" parameterType="member">
-		insert into member values (#{id}, #{password}, #{name}, #{email}, #{mileage})
-	</insert>
-	
-	공통
-	<update id="updateMemberById" parameterType="member">
-		update member
-		set password = #{password},
-			 member_name = #{name},
-			 email = #{email},
-			 mileage = #{mileage}
-		where member_id = #{id}
-	</update>
-	
-	<delete id="deleteMemberById" parameterType="string">
-		delete from member where member_id = #{id}
-	</delete>
-	
-	조회
-	<select id="selectMemberById" parameterType="string" resultType="member">
-		<include refid="select-sql"/>
-		where member_id = #{value}
-	</select>
-	<select id="selectMemberList" resultType="member">
-		<include refid="select-sql"/>
-	</select>
-   
-	<select id="selectMemberByName" parameterType="string" resultType="member">
-		<include refid="select-sql"/>
-		where member_name like '%'||#{value}||'%'
-	</select>
-	
-	마일리지 범위로 회원 조회
-	
-	 parameterType에 ? 가 여러개인 경우 Map 이나 VO를 선언한다.
-	  - VO : VO가 있는 경우 - Data Type으로 사용되는 VO를 이용하는 경우.
-	  - Map : VO가 없는 경우 - where  조건등에서 임시로 ? 에 사용되는 값들일 경우.
-	  	-> 파라미터 매핑에 map의 키값을 설정한다.  #{startMileage} -> map객체의 get("startMileage") 리턴 값을 ?에 넣어라. 
-	
-	<select id="selectMemberByMileageRange" resultType="member" parameterType="hashmap">
-		<include refid="select-sql"/>
-		where mileage between #{startMileage} and #{endMileage}
-	</select>
-   
-   
-   WEB에서 추가
-   paging을 위한 select
-   <select id="selectMemberListPaging" resultType="member" parameterType="hashmap">
-      select member_id id, password, member_name name, email, mileage
-      from  (select ceil(rownum/#{itemPerPage}) page, member_id, password, member_name, email, mileage
-               from(select member_id, password, member_name, email, mileage
-                       from member order by member_id desc
-                      )
-               )
-      where page = #{page}
+
+
+
+   <select id="managerSearchIdPw" resultType="ManagerInfo">
+   		select manager_id managerId, manager_pw managerPw, serial_num serialNum, manager_email managerEmail from Manager
    </select>
-   <select id="selectCountMember" resultType="_int">
-      select count(member_id) from member
-   </select> -->
+
+	
+
+
+
    
    <select id="selectBoardListPaging" resultType="board" parameterType="hashmap">
-   	select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
-      from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password, board_writer 
+   		select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+     	 from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password, board_writer 
                from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
                        from publicBoard order by board_no desc
                       )
@@ -150,7 +103,7 @@
 	</select>
 	
 	<select id="selectCountBoardpassword" resultType="_int" parameterType="string">
-		select count(board_no) from publicBoard where board_password=#{value}
+		select count(board_no) from publicBoard where board_writer=#{value}
 	</select>
 	
 	<select id="selectBoardbyname" parameterType="string" resultType="board">
@@ -162,7 +115,7 @@
 	<select id="selectBoardbypassword" parameterType="string" resultType="board">
 		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
 		from publicBoard
-		where board_password= #{value}
+		where board_writer= #{value}
 	</select>
 	
    <select id="selectListPaging" resultType="board" parameterType="hashmap">
@@ -191,19 +144,64 @@
    
    
    
+   <select id="dagleQuery" parameterType="_int" resultMap="join-resultmap">
+   		<include refid="select-dept-emp-join-sql"/>	 	
+   		and p.board_no=#{value}
+   </select>
+   
+   <select id="dagleQuerylist" parameterType="_int" resultMap="join-resultmap">
+   		<include refid="select-dept-emp-join-sql"/>	 	
+   		and d.board_no=#{value}
+   </select>
+   
+   <insert id="dagleinsert" parameterType="dagle">
+   		insert into dagle values (#{board_no},#{content},#{board_date},#{board_count},#{board_writer},#{board_password})
+   </insert>
+   
+   <resultMap id="board-basic-resultmap" type="board">
+		
+		<result column = "board_no" property = "board_no"/>
+		<result column = "board_header" property ="board_header"/>
+		<result column = "board_name" property ="board_name"/>
+		<result column = "board_content" property ="board_content"/>
+		<result column = "board_date" property ="board_date"/>
+		<result column = "board_count" property ="board_count"/>
+		<result column = "board_password" property ="board_password"/>
+		<result column = "board_writer" property ="board_writer"/>
+	</resultMap>
+   
+   
+   <resultMap id="join-resultmap" type="board" extends="board-basic-resultmap">
+		<collection property="daglelist" ofType="dagle">
+			<result column = "board_no" property ="board_no"/>
+			<result column = "content" property ="content"/>
+			<result column = "board_date" property ="board_date"/>
+			<result column = "board_count" property ="board_count"/>
+			<result column = "board_writer" property ="board_writer"/>
+			<result column = "board_password" property ="board_password"/>
+			
+		</collection>
+	</resultMap>
+   
+   
+   
+   
+   
+   
+   
    
    <!-- 공지사항 -->
    
    
    <select id="selectoperatorListPaging" resultType="operatorboard" parameterType="hashmap">
    	select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
-      from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+      from  (select ceil(rownum/#{itemPerPageoperator}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
                from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
                        from operatorBoard
                        order by board_no desc
                       )
                )
-      where page = #{page}
+      where page = #{pageoperator}
    </select>
 
 	<select id="selectoperatorList" resultType="operatorboard">
@@ -274,17 +272,66 @@
 	<select id="selectCountoperatorpassword" resultType="_int" parameterType="string">
 		select count(board_no) from operatorBoard where board_password=#{value}
 	</select>
+	
+	
+	<!-- 답변게시판 -->
+	
+	<select id="selectQAList" resultType="QABoard">
+		select case when lvl=0 then no when lvl>0 then null end no , rpad('+', lvl,'+')||title title , writer , wdate
+			from qnaboard
+			order by grp desc, seq
+	</select>
+	
+	<select id="allQAList" resultType="QABoard">
+		select case when lvl=0 then no when lvl>0 then null end no,rpad('+', lvl, '+')||title title, contents, writer, wdate, grp, seq , lvl from qnaboard
+	</select>
+	
+	<insert id="insertQA" parameterType="QABoard">
+		insert into qnaboard
+		values(qnaboard_no_seq.nextval, #{title}, #{contents}, #{writer}, #{wdate}, qnaboard_no_seq.currval, seq, lvl)
+	</insert>
+	
+	<!-- 게시물의 답글  달시 수정-->
+	<update id="insertQAdagelupdate" parameterType="QABoard">
+		update qnaboard
+		set seq=seq+1
+		where grp=1 and seq>1
+	</update>
+	
+	
+	<!-- 해당게시물 조회 -->
+	<select id="selectQAId" resultType="QABoard" parameterType="_int" >
+		 select title,no,lvl, grp
+ 			from (
+ 				select case when lvl=0 then no
+   		         when lvl>0 then null end no
+				, rpad('+', lvl, '└')||title title
+				, writer
+				, wdate
+				, grp
+				, lvl
+
+				from qnaboard
+				order by grp desc, seq
+ 				) where grp=#{value} and lvl>0
+	</select>
+	
+	<select  id="selectlvl" resultType="QABoard">
+		select no, lvl, grp from 
+		qnaboard
+	</select> 
+	
+	<delete id="dagledelete" parameterType="string">
+		delete from dagle d where d.content=#{value}
+	</delete>
+	
+	<update id="dagleupdate" parameterType="dagle">
+		update dagle 
+		set 
+		content = #{content}
+		board_date = #{board_date} 
+		where board_password=#{board_password}
+	</update>
+	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
 

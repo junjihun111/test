@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import com.domain.board.dao.HealthDao;
 import com.domain.board.dao.MemberDao;
 import com.domain.common.util.PagingBean;
-
+import com.domain.common.util.PagingBean2;
 import com.mydomain.vo.Board;
 import com.mydomain.vo.CodeTable;
+import com.mydomain.vo.ManagerInfo;
 import com.mydomain.vo.OperatorBoard;
+import com.mydomain.vo.QABoard;
+import com.mydomain.vo.dagle;
 
 
 
@@ -32,6 +35,11 @@ public class HealthServiceImpl implements HealthService{
 	public HealthServiceImpl(HealthDao dao)
 	{
 		this.dao=dao;
+	}
+	
+	public List<ManagerInfo> selectMember()
+	{
+		return dao.selectMember();
 	}
 	
 	
@@ -106,6 +114,7 @@ public class HealthServiceImpl implements HealthService{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<Board> list = dao.selectListPaging(page,option);
 		map.put("list", list);
+		
 		PagingBean pagingBean = new PagingBean(dao.selectCountBoardname(option), page);
 		map.put("pageBean", pagingBean);
 		return map;
@@ -121,16 +130,42 @@ public class HealthServiceImpl implements HealthService{
 		return map;
 	}
 	
+	public List<Board> selectjoin(int page)
+	{
+		return dao.selectjoin(page);
+	}
+	
+	public int insertdagle(dagle dag)
+	{
+		return dao.insertdagle(dag);
+	}
+	
+	//답글삭제
+	public int dagledelete(String writer)
+	{
+		return dao.dagledelete(writer);
+	}
+	
+	public List<Board> selectjoinlist(int page)
+	{
+		return dao.selectjoinlist(page);
+	}
+	
+	public int dagleupdate(dagle dag)
+	{
+		return dao.dagleupdate(dag);
+	}
+	
 	//공지사항 게시판.
 	
 	public Map selectoperatorListPaging(int page)
 	{
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
 		List<OperatorBoard> list = dao.selectoperatorListPaging(page);
-		map.put("list", list);
-		PagingBean pagingBean2 = new PagingBean(dao.selectCountBoard(), page);
-		map.put("pageBean2", pagingBean2);
-		return map;
+		map2.put("list", list);
+		PagingBean2 pagingBean2 = new PagingBean2(dao.operatorselectCount(), page);
+		map2.put("pageBean2", pagingBean2);
+		return map2;
 	}
 	
 	public List<OperatorBoard> selectOperatorList()
@@ -166,5 +201,39 @@ public class HealthServiceImpl implements HealthService{
 	public int updateoperatorById(OperatorBoard board)
 	{
 		return dao.updateoperatorById(board);
+	}
+	
+	
+	//답변게시판
+	
+	
+	public List selectQAList()
+	{
+		return dao.QAList();
+	}
+	
+	public int insertQA(QABoard qa)
+	{
+		return dao.insertQA(qa);
+	}
+	
+	public int insertQAdagelupdate(QABoard qa)
+	{
+		return dao.insertQAdagelupdate(qa);
+	}
+	
+	public List allQAList()
+	{
+		return dao.allQAList();
+	}
+	
+	public List<QABoard> findgrp(int page)
+	{
+		return dao.findgrp(page);
+	}
+	
+	public List<QABoard> selectlvl()
+	{
+		return dao.selectlvl();
 	}
 }

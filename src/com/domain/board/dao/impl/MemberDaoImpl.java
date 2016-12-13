@@ -28,4 +28,10 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne(makeSql("selectMember"),member);
 	}
 
+	@Override
+	public Member selectNameByMember(int memberNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne(makeSql("selectNameByNo"),memberNo);
+	}
+
 }

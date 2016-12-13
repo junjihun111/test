@@ -6,81 +6,16 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.mydomain.vo.Board;
 import com.mydomain.vo.CodeTable;
+import com.mydomain.vo.ManagerInfo;
 import com.mydomain.vo.OperatorBoard;
+import com.mydomain.vo.QABoard;
+import com.mydomain.vo.dagle;
 
 
 
 public interface HealthDao {
 
-	/**
-	 * 한 회원의 데이터를 insert하는 메소드
-	 * @param session 
-	 * @param member insert할 회원정보
-	 * @return
-	 *//*
-	int insertMember(SqlSession session, Member member);
-	*//**
-	 * 매개변수로 받은 Member객체의 id와 일치하는 회원의 나머지 값들을 update 하는 메소드
-	 * @param session
-	 * @param member
-	 * @return
-	 *//*
-	int updateMemberById(SqlSession session, Member member);
-	*//**
-	 * 매개변수로 받은 memberId와 일치하는 member data를 삭제하는 메소드.
-	 * @param session
-	 * @param memberId
-	 * @return
-	 *//*
-	int deleteMemberById(SqlSession session, String memberId);
-	
-	*//**
-	 * 매개변수로 받은 memberId와 일치하는 member data를 select하는 메소드
-	 * @param session
-	 * @param memberId
-	 * @return
-	 *//*
-	Member selectMemberById(SqlSession session, String memberId);
-	*//**
-	 * 매개변수로 받은 memberName과 일치하는 member data들을 select하는 메소드
-	 * @param session
-	 * @param memberName
-	 * @return
-	 *//*
-	List<Member> selectMemberByName(SqlSession session, String memberName);
-	*//**
-	 * 모든 member data들을 select하는 메소드
-	 * @param session
-	 * @return
-	 *//*
-	List<Member> selectMemberList(SqlSession session);
-	
-	*//**
-	 * 회원 마일리지 범위로 member 들을 select하는 메소드
-	 * @param session
-	 * @param startMileage
-	 * @param endMileage
-	 * @return
-	 *//*
-	List<Member> selectMemberByMileageRange(SqlSession session, int startMileage, int endMileage);
-	
-	
-	 ************************Paging 추가************************* 
-	*//**
-	 * member data들을 page 단위로 select 하는 메소드.
-	 * @param session
-	 * @param page 조회할 page 번호
-	 * @return
-	 *//*
-	List<Member> selectMemberList(SqlSession session, int page);
-	
-	*//**
-	 * 총 회원수를 select 하는 메소드
-	 * @param session
-	 * @return
-	 *//*
-	int selectCountMember(SqlSession session);*/
-	
+
 
 	int insertBoard(Board board);
 	
@@ -116,6 +51,26 @@ public interface HealthDao {
 	
 	int selectCountBoardpassword(String password);
 	
+	List<ManagerInfo> selectMember();
+	
+	
+	
+	//
+	
+	//댓글 삭제
+	int dagledelete(String writer);
+	
+	int dagleupdate(dagle dag);
+	
+	
+	
+	
+	//
+	List<Board> selectjoin(int page); 
+	
+	int insertdagle(dagle dag);
+	
+	List<Board> selectjoinlist(int page);
 	
 	//공지사항
 	List<OperatorBoard> selectoperatorListPaging(int page);
@@ -133,33 +88,22 @@ public interface HealthDao {
 	int deleteoperatorById(int boardId);
 	
 	int updateoperatorById(OperatorBoard board);
-	/*int insertoperator(OperatorBoard board);
 	
-	List<CodeTable> selectoperatorCode();
-
-	int updateoperatorById(OperatorBoard board);
-
-	OperatorBoard selectoperatorById(int boardNo);
 	
-	int deleteoperatorById(int boardId);
+	//답변게시판 
 	
-	List<OperatorBoard> selectoperatorList();
+	List<QABoard> QAList();
 	
-	int operatorselectSequence();	
+	int insertQA(QABoard qa);
 	
-	int operatorupdateCount(OperatorBoard board);
+	int insertQAdagelupdate(QABoard qa);
 	
-	int operatorselectCountBoard();
+	List<QABoard> allQAList();
 	
-	int selectCountoperator();
+	List<QABoard> findgrp(int page);
 	
-	List<OperatorBoard> selectoperatorbyname(String name);
+	List<QABoard> selectlvl();
 	
-	List<OperatorBoard> selectoperatorbypassword(String password);
-
-	int selectCountoperatorname(String name);
-	
-	int selectCountoperatorpassword(String password);*/
 }
 
 

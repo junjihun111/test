@@ -7,6 +7,8 @@ import com.mydomain.vo.Code;
 import com.mydomain.vo.CodePage;
 import com.mydomain.vo.Color;
 import com.mydomain.vo.Member;
+import com.mydomain.vo.Order;
+import com.mydomain.vo.Orderation;
 import com.mydomain.vo.Product;
 import com.mydomain.vo.TColor;
 
@@ -29,6 +31,8 @@ public interface ProductService {
 	 * 10.색상전체조회
 	 * 11.옵션추가
 	 * 12.수량 갱신
+	 *
+	 * 
 	 * */
 	public void addItem(Product product);
 	public void addItemWear(Product product);
@@ -55,4 +59,29 @@ public interface ProductService {
 	
 	public List<Member> getMemberList();
 	public Member getMember(Member member);
+	public Member getMemberName(int memberNo);
+	/*
+	 *  13.주문등록
+	 * 14.주문수정
+	 * 15.주문상태수정
+	 * 16.주문삭제
+	 * 17.주문전체조회
+	 * 18.주문선택조회
+	 * */
+	public void addOrderation(Orderation orderation);
+	public void modifyOrderation(Orderation orderation);
+	public void modifyOrderationCode(String code,String orderationNo);
+	public void removeOrderaion(String orderationNo);
+	public void removeOrderationCode(String code);
+	public Map<String, Object> orderationList(CodePage codePage);
+	public Orderation getOrderation(String orderationNo);
+/*
+ *  19.주문등록
+ *  20.주문조인조회
+ *  21.주문삭제
+ * */
+	public void addOrder(Order order);
+	public void removeOrder(String password);
+	public List<Order> getOrder(String password);
+	public List<Order> getOrderByName(String password,String orderName);
 }

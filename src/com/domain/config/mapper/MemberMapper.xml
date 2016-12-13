@@ -7,6 +7,8 @@ select member_no memberNo,member_phoneEnd memberPhoneEnd from health_member
 <select id="selectMember" resultType="Member" parameterType="Member">
 select member_no memberNo,member_phoneEnd memberPhoneEnd from health_member where member_no = #{memberNo} and member_phoneEnd = #{memberPhoneEnd}
 </select>
-
+<select id="selectNameByNo" resultType="Member" parameterType="_int">
+select member_no memberNo,member_phoneEnd memberPhoneEnd, member_name memberName from health_member where member_no = #{memberNo}
+</select>
 
 </mapper> 

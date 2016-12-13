@@ -1,0 +1,101 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css); 
+
+
+body, div, ul, li, table, tr, td, th{margin:0px; padding:0px;}
+
+ul, li{list-style:none;}
+
+#wrap {
+	width:100%;
+	position: relative;
+}
+
+#header {
+	width:100%;
+	background:#000;
+}
+
+#logo{
+	text-align:center;
+	font: 25px bold;
+	color:#d3d3d3;
+}
+
+
+
+
+
+/*네비게이션 색상*/
+.navi_bg{
+	background:#222;
+}
+
+
+
+/*네비게이션 전체 영역 제어*/
+.nav {
+	height:45px;
+	list-style: none;
+	width:840px;
+	margin:auto;
+	background: #222;
+	font-size: 12px;
+	color:#fff;
+}
+
+
+/*주메뉴 영역 제어*/
+.topnav{
+	text-align:center;
+	width:100px;
+	height:15px;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+
+/*주메뉴 마우스 오버시*/
+.topnav:hover{
+	color:#d3d3d3;
+}
+
+
+
+/*주메뉴,서브메뉴 한묶음 제어*/
+.navi_set{
+	float: left;
+	padding:10px;
+	position: relative;
+}
+
+
+
+/*서브메뉴 전체영역 제어*/
+.subnav{
+	z-index:150;
+	position: absolute;
+	left: 0; top: 35px;
+	background: #333;
+	display: none;
+
+}
+
+
+
+/*서브메뉴 한칸 제어*/
+.subnav li{
+	padding:10px;
+	width:100px;
+	text-align:center;
+	border-bottom:1px solid #222;
+	border-top:1px solid #444;
+	cursor:pointer;
+}
+
+
+
+/*서브메뉴 마우스 오버시*/
+.subnav li:hover{
+	background:#555;
+}

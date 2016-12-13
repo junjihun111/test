@@ -1,6 +1,8 @@
 package com.mydomain.vo;
 
-public class CodeTable {
+import java.io.Serializable;
+
+public class CodeTable implements Serializable{
 	private String CODE;
 	private String CODEVALUE;
 	private String CODEOPTION;

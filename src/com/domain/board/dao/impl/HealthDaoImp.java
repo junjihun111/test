@@ -10,12 +10,15 @@ import org.springframework.stereotype.Repository;
 
 import com.domain.board.dao.HealthDao;
 import com.domain.common.util.Constants;
+import com.domain.common.util.Constants2;
 import com.mydomain.vo.Board;
 import com.mydomain.vo.CodeTable;
+import com.mydomain.vo.ManagerInfo;
 import com.mydomain.vo.OperatorBoard;
+import com.mydomain.vo.QABoard;
+import com.mydomain.vo.dagle;
 
 
-//import com.domain.member.vo.Member;
 @Repository
 public class HealthDaoImp implements HealthDao {
 	
@@ -28,57 +31,6 @@ public class HealthDaoImp implements HealthDao {
 		return "board."+tagId;
 	}
 	
-	/*@Override
-	public int insertMember(SqlSession session, Member member) {
-		return session.insert(makeSql("insertMember"), member);
-	}
-
-	@Override
-	public int updateMemberById(SqlSession session, Member member) {
-		return session.update(makeSql("updateMemberById"), member);
-	}
-
-	@Override
-	public int deleteMemberById(SqlSession session, String memberId) {
-		return session.delete(makeSql("deleteMemberById"), memberId);
-	}
-
-	@Override
-	public Member selectMemberById(SqlSession session, String memberId) {
-		return session.selectOne(makeSql("selectMemberById"), memberId);
-	}
-
-	@Override
-	public List<Member> selectMemberByName(SqlSession session, String memberName) {
-		return session.selectList(makeSql("selectMemberByName"), memberName);
-	}
-
-	@Override
-	public List<Member> selectMemberList(SqlSession session) {
-		return session.selectList(makeSql("selectMemberList"));
-	}
-
-	@Override
-	public List<Member> selectMemberByMileageRange(SqlSession session, int startMileage, int endMileage) {
-		HashMap param = new HashMap();
-		param.put("startMileage", startMileage);
-		param.put("endMileage", endMileage);
-		return session.selectList(makeSql("selectMemberByMileageRange"), param);
-	}
-	 *****추가 - page단위 회원목록 조회************* 
-
-	@Override
-	public List<Member> selectMemberList(SqlSession session, int page) {
-		HashMap param = new HashMap();
-		param.put("itemPerPage", Constants.ITEMS_PER_PAGE);
-		param.put("page", page);
-		return session.selectList(makeSql("selectMemberListPaging"), param);
-	}
-
-	@Override
-	public int selectCountMember(SqlSession session) {
-		return session.selectOne(makeSql("selectCountMember"));
-	}*/
 
 	@Override
 	public int insertBoard(Board board) {
@@ -139,12 +91,12 @@ public class HealthDaoImp implements HealthDao {
 	
 	public int selectCountBoardname(String name)
 	{
-		return session.selectOne("selectCountBoardname");
+		return session.selectOne(makeSql("selectCountBoardname"),name);
 	}
 	
 	public int selectCountBoardpassword(String password)
 	{
-		return session.selectOne("selectCountBoardpassword");
+		return session.selectOne(makeSql("selectCountBoardpassword"),password);
 	}
 	
 	public int selectCount()
@@ -167,6 +119,7 @@ public class HealthDaoImp implements HealthDao {
 		param.put("itemPerPage", Constants.ITEMS_PER_PAGE);
 		param.put("page", page);
 		param.put("option", option);
+		
 		return session.selectList(makeSql("selectListPaging"),param);
 	}
 	
@@ -179,15 +132,49 @@ public class HealthDaoImp implements HealthDao {
 		return session.selectList(makeSql("selectListPagingwriter"),param);
 	}
 	
+	public List<ManagerInfo> selectMember()
+	{
+		return session.selectList(makeSql("managerSearchIdPw"));
+	}
+	
+	public List<Board> selectjoin(int page)
+	{
+		return session.selectList(makeSql("dagleQuery"),page);
+	}
+	
+	public int insertdagle(dagle dag)
+	{
+		return session.insert(makeSql("dagleinsert"),dag);
+	}
+	
+	//댓글삭제
+	
+	public int dagledelete(String writer)
+	{
+		return session.delete(makeSql("dagledelete"),writer);
+	}
+	
+	
+	public List<Board> selectjoinlist(int page)
+	{
+		return session.selectList(makeSql("dagleQuerylist"),page);
+	}
+	
+	public int dagleupdate(dagle dag)
+	{
+		return session.update(makeSql("dagleupdate"),dag);
+	}
+	
+	
 	
 	//공지사항
 	
 	public List<OperatorBoard> selectoperatorListPaging(int page)
 	{
-		HashMap param=new HashMap();
-		param.put("itemPerPage", Constants.ITEMS_PER_PAGE);
-		param.put("page", page);
-		return session.selectList(makeSql("selectoperatorListPaging"),param);
+		HashMap param2=new HashMap();
+		param2.put("itemPerPageoperator", Constants2.ITEMS_PER_PAGE2);
+		param2.put("pageoperator", page);
+		return session.selectList(makeSql("selectoperatorListPaging"),param2);
 	}
 	
 	public List<OperatorBoard> selectOperatorList()
@@ -224,51 +211,41 @@ public class HealthDaoImp implements HealthDao {
 	{
 		return session.update(makeSql("updateoperatorById"),board);
 	}
-	/*
-	public int insertoperator(OperatorBoard board)
-	{
-		return session.insert(makeSql("operatorinsertboard"));
-	}
-	
-	//안씀
-	public List<CodeTable> selectoperatorCode()
-	{
-		return null;
-	}
-
-	public int updateoperatorById(OperatorBoard board)
-	{
-		return session.update(makeSql("updateoperatorById"));
-	}
-	
-	public int deleteoperatorById(int boardId)
-	{
-		return session.delete(makeSql("deleteoperatorById"),boardId);
-	}
-	
-	public OperatorBoard selectoperatorById(int boardNo)
-	{
-		return session.selectOne(makeSql("selectoperatorlistById"),boardNo);
-	}
-	
-
-	public int operatorselectSequence()
-	{
-		return session.selectOne(makeSql("operatorselectSequence"));
-	}
-	
-	public int operatorupdateCount(OperatorBoard board){
-		return session.update(makeSql("operatorselectCountBoardCount"));
-	}
-	
-	public int operatorselectCountBoard(){
-		return session.selectOne(makeSql("selectCountBoardCount"));
-	}*/
 	
 	
 	
 	
+	//답변
 	
+	 public List QAList()
+	 {
+		 return session.selectList("selectQAList");
+	 }
+	
+	 public int insertQA(QABoard qa)
+	 {
+		 return session.insert("insertQA");
+	 }
+	 
+	 public int insertQAdagelupdate(QABoard qa)
+	 {
+		 return session.update("insertQAdagelupdate");
+	 }
+	 
+	 public List allQAList()
+	 {
+		 return session.selectList("allQAList");
+	 }
+	 
+	 public List<QABoard> findgrp(int page)
+	 {
+		 return session.selectList("selectQAId",page);
+	 }
+	 
+	 public List<QABoard> selectlvl(){
+		 return session.selectList("selectlvl");
+	 }
+	 
 }
 
 

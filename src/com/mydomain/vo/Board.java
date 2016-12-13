@@ -1,8 +1,14 @@
 package com.mydomain.vo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Board {
+
+public class Board implements Serializable
+
+{
 	private int board_no;
 	private String board_header; 
 	private String board_name;
@@ -11,72 +17,119 @@ public class Board {
 	private int board_count;
 	private String board_password;
 	private String board_writer;
+	private  ArrayList<dagle> daglelist;
 	
 	public Board(){}
+
+	
 
 	public int getBoard_no() {
 		return board_no;
 	}
 
+
+
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}
+
+
 
 	public String getBoard_header() {
 		return board_header;
 	}
 
+
+
 	public void setBoard_header(String board_header) {
 		this.board_header = board_header;
 	}
+
+
 
 	public String getBoard_name() {
 		return board_name;
 	}
 
+
+
 	public void setBoard_name(String board_name) {
 		this.board_name = board_name;
 	}
+
+
 
 	public String getBoard_content() {
 		return board_content;
 	}
 
+
+
 	public void setBoard_content(String board_content) {
 		this.board_content = board_content;
 	}
+
+
 
 	public Date getBoard_date() {
 		return board_date;
 	}
 
+
+
 	public void setBoard_date(Date board_date) {
 		this.board_date = board_date;
 	}
+
+
 
 	public int getBoard_count() {
 		return board_count;
 	}
 
+
+
 	public void setBoard_count(int board_count) {
 		this.board_count = board_count;
 	}
+
+
 
 	public String getBoard_password() {
 		return board_password;
 	}
 
+
+
 	public void setBoard_password(String board_password) {
 		this.board_password = board_password;
 	}
+
+
 
 	public String getBoard_writer() {
 		return board_writer;
 	}
 
+
+
 	public void setBoard_writer(String board_writer) {
 		this.board_writer = board_writer;
 	}
+
+
+
+	public ArrayList<dagle> getDaglelist() {
+		return daglelist;
+	}
+
+
+
+	public void setDaglelist(ArrayList<dagle> daglelist) {
+		this.daglelist = daglelist;
+	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -143,7 +196,8 @@ public class Board {
 	public String toString() {
 		return "Board [board_no=" + board_no + ", board_header=" + board_header + ", board_name=" + board_name
 				+ ", board_content=" + board_content + ", board_date=" + board_date + ", board_count=" + board_count
-				+ ", board_password=" + board_password + ", board_writer=" + board_writer + "]";
+				+ ", board_password=" + board_password + ", board_writer=" + board_writer + ", daglelist=" + daglelist
+				+ "]";
 	}
 
 	public Board(int board_no, String board_header, String board_name, String board_content, Date board_date,
@@ -157,6 +211,20 @@ public class Board {
 		this.board_count = board_count;
 		this.board_password = board_password;
 		this.board_writer = board_writer;
+	}
+
+	public Board(int board_no, String board_header, String board_name, String board_content, Date board_date,
+			int board_count, String board_password, String board_writer, ArrayList<dagle> daglelist) {
+		super();
+		this.board_no = board_no;
+		this.board_header = board_header;
+		this.board_name = board_name;
+		this.board_content = board_content;
+		this.board_date = board_date;
+		this.board_count = board_count;
+		this.board_password = board_password;
+		this.board_writer = board_writer;
+		this.daglelist = daglelist;
 	}
 	
 	

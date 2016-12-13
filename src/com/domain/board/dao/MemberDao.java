@@ -8,4 +8,5 @@ import com.mydomain.vo.Member;
 public interface MemberDao {
 public List<Member> selectAllmember();
 public Member selectMember(Member member);
+public Member selectNameByMember(int memberNo);
 }

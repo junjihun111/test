@@ -70,8 +70,8 @@
  	  <div id="insertbox">
       	<input type="submit" value="수정">  <input type="reset" value="초기화">
       	<br><br>
-      	<c:if test="${not empty requestScope.errorinsert }">
-      		${requestScope.errorinsert}
+      	<c:if test="${not empty requestScope.errorupdate }">
+      		${requestScope.errorupdate}
       	</c:if>
       </div>   
       
