@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- main.do 요청 ajax_request.jsp -->
+
+	<context:component-scan base-package="com.mydomain.controller" />
+
+	<mvc:annotation-driven />
+
+	<mvc:view-controller view-name="main.tiles" path="/main.do" />
+	<mvc:view-controller view-name="main1.tiles" path="/main1.do" />
+	<mvc:view-controller view-name="main2.tiles" path="/main2.do" />
+	<mvc:view-controller view-name="main3.tiles" path="/main3.do" />
+	<mvc:view-controller view-name="main4.tiles" path="/main4.do" />
+	<mvc:view-controller view-name="mainguest1.tiles"
+		path="/mainguest1.do" />
+
+
+	<mvc:view-controller view-name="advertisement/join_form.tiles"
+		path="/join_form.do" />
+	<mvc:view-controller view-name="shopping/register_form.tiles"
+		path="/register_form.do" />
+
+	<mvc:view-controller view-name="Magazine/event.tiles"
+		path="/event.do" />
+	<mvc:view-controller view-name="Magazine/eventview.tiles"
+		path="/eventview.do" />
+	<mvc:view-controller view-name="Magazine/eventview2.tiles"
+		path="/eventview2.do" />
+	<mvc:view-controller view-name="Magazine/eventview3.tiles"
+		path="/eventview3.do" />
+	<mvc:view-controller view-name="Magazine/eventview4.tiles"
+		path="/eventview4.do" />
+	<mvc:view-controller view-name="Magazine/eventview5.tiles"
+		path="/eventview5.do" />
+	<mvc:view-controller view-name="Magazine/eventview6.tiles"
+		path="/eventview6.do" />
+	<!-- 건강 -->
+
+
+	<mvc:view-controller view-name="Magazine/HealthInformation.tiles"
+		path="/HealthInformation.do" />
+	<mvc:view-controller view-name="Magazine/HealthInformationview.tiles"
+		path="/HealthInformationview.do" />
+	<mvc:view-controller view-name="Magazine/HealthInformationview2.tiles"
+		path="/HealthInformationview2.do" />
+	<mvc:view-controller view-name="Magazine/HealthInformationview3.tiles"
+		path="/HealthInformationview3.do" />
+	<mvc:view-controller view-name="Magazine/HealthInformationview4.tiles"
+		path="/HealthInformationview4.do" />
+	<mvc:view-controller view-name="Magazine/HealthInformationview5.tiles"
+		path="/HealthInformationview5.do" />
+	<mvc:view-controller view-name="Magazine/HealthInformationview6.tiles"
+		path="/HealthInformationview6.do" />
+
+
+
+	<mvc:view-controller path="/mainBoard.do"
+		view-name="Board/mainBoard.do" />
+	<mvc:view-controller path="/mainSuccess.do"
+		view-name="Board/mainSuccess.do" />
+	<mvc:view-controller path="/join_form.do"
+		view-name="advertisement/join_form.tiles" />
+	<mvc:view-controller path="/register_form.do"
+		view-name="shopping/register_form.tiles" />
+	<mvc:view-controller path="/insert.do" view-name="Board/insert.tiles" />
+	<mvc:view-controller path="/BoardList.do"
+		view-name="Board/BoardList.do" /> <!-- 컨트롤러로 넘길시 -->
+	<mvc:view-controller path="/insertSuccess.do"
+		view-name="Board/insertSuccess.do" />
+	<mvc:view-controller path="/delete.do" view-name="Board/delete.do" /> <!-- 컨트롤러로 넘길시 -->
+	<mvc:view-controller path="/update.do" view-name="Board/update.do" /> <!-- 컨트롤러로 넘길시 -->
+	<mvc:view-controller path="/updateSuccess.do"
+		view-name="Board/updateSuccess.do" />
+	<mvc:view-controller path="/insertList.do"
+		view-name="Board/insertList.do" />
+	<mvc:view-controller path="/mainguest.do"
+		view-name="mainguest.do" />
+	<mvc:view-controller path="/updateajax.do"
+		view-name="Board/updateajax.do" />
+	<mvc:view-controller path="/QAList.do" view-name="Board/QAList.do" />
+	<mvc:view-controller path="/namefind.do" view-name="Board/namefind.do" />
+	<mvc:view-controller path="/passwordfind.do"
+		view-name="Board/passwordfind.do" />
+	<mvc:view-controller path="/operationBoardList.do"
+		view-name="Board/operationBoardList.do" />
+	<mvc:view-controller path="/operationinsertList.do"
+		view-name="Board/operationinsertList.do" />
+	<mvc:view-controller path="/operatorinsert.do"
+		view-name="Board/operatorinsert.tiles" />
+	<mvc:view-controller path="/operatorinsertSuccess.do"
+		view-name="Board/operatorinsertSuccess.do" />
+	<mvc:view-controller path="/operatorupdate.do"
+		view-name="Board/operatorupdate.do" />
+	<mvc:view-controller path="/operatordelete.do"
+		view-name="Board/operatordelete.do" />
+	<mvc:view-controller path="/operatorupdateSuccess.do"
+		view-name="Board/operatorupdateSuccess.do" />
+	<mvc:view-controller path="/insertSuccessre.do"
+		view-name="insertListre.tiles" />
+	<mvc:view-controller path="/updateSuccessre.do"
+		view-name="updateSuccessre.tiles" />
+	<mvc:view-controller path="/operationinsertListre.do"
+		view-name="operationinsertListre.tiles" />
+	<mvc:view-controller path="/dagleinsert.do"
+		view-name="Board/dagleinsert.do" />
+	<mvc:view-controller path="/QAinsert.do" view-name="Board/QAinsert.do" />
+	<mvc:view-controller path="/QAdrong.do" view-name="Board/QAdrong.do" />
+	<mvc:view-controller path="/deletedagle.do"
+		view-name="Board/deletedagle.do" />
+	<mvc:view-controller path="/updatedagle.do"
+		view-name="Board/updatedagle.do" />
+	<mvc:view-controller path="/updatereset.do"
+		view-name="Board/updatereset.do" />
+	<mvc:view-controller path="/deletedageguest.do"
+		view-name="Board/deletedageguest.do" />
+
+	<!-- 채환이꺼 -->
+	<mvc:view-controller view-name="itemAdd.tiles"
+		path="/addItem_form.do" />
+
+	<mvc:view-controller view-name="viewItem.tiles"
+		path="/viewItem.do" />
+
+	<mvc:view-controller view-name="viewItemOne.tiles"
+		path="/ViewItemPage.do" />
+
+	<mvc:view-controller view-name="orderForm.tiles"
+		path="/Order.do" />
+
+	<mvc:view-controller view-name="payment.tiles"
+		path="/payment.do" />
+
+	<mvc:view-controller view-name="Board/index.tiles"
+		path="/shopping.do" />
+
+	<mvc:view-controller view-name="passwordFrom.tiles"
+		path="/passwordFrom.do" />
+
+	<mvc:view-controller view-name="ViewOrderer.tiles"
+		path="/ViewOrderer.do" />
+
+	<mvc:view-controller view-name="OrderAdmin.tiles"
+		path="/OrderAdmin.do" />
+
+	<mvc:view-controller view-name="ViewOrderation.tiles"
+		path="/ViewOneOrderPage.do" />
+
+	<mvc:view-controller view-name="updateOrderationForm.tiles"
+		path="/updateOrderationForm.do" />
+
+	<mvc:view-controller view-name="updateProduct.tiles"
+		path="/updateProductPage.do" />
+
+	<mvc:view-controller view-name="joinPasswordForm.tiles"
+		path="/ViewCartList.do" />
+
+		<bean name="tilesConfig"
+			class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+			<property name="definitions">
+				<!-- 매개변수로 list 를 받는다. -->
+				<list>
+					<value>/WEB-INF/config/tiles/tiles-defs.xml</value>
+				</list>
+			</property>
+		</bean>
+
+		<bean name="tilesViewResolver"
+			class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+			p:order="1" />
+		<!-- 이게 있다면 tile 설정파일에 가서 본다. -->
+
+		<bean name="internalViewResolver"
+			class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+			p:order="2" /><!-- p:prefix="/WEB-INF/view" -->
+
+		<bean name="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+</beans>

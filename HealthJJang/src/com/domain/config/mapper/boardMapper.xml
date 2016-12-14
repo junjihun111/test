@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<sql id="select-sql">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
+		from publicBoard
+	</sql>
+		
+	<sql id="select-dept-emp-join-sql">
+		select p.board_no, p.board_header, p.board_name, p.board_content
+		,p.board_date, p.board_count, p.board_password, p.board_writer
+		, d.board_no, d.content, d.board_date, d.board_count, d.board_writer, d.board_password
+		from PUBLICBOARD p, DAGLE d
+		where p.board_no=d.board_no(+)
+	</sql>
+
+
+
+   <select id="managerSearchIdPw" resultType="ManagerInfo">
+   		select manager_id managerId, manager_pw managerPw, serial_num serialNum, manager_email managerEmail from Manager
+   </select>
+
+	
+
+
+
+   
+   <select id="selectBoardListPaging" resultType="board" parameterType="hashmap">
+   		select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+     	 from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password, board_writer 
+               from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+                       from publicBoard order by board_no desc
+                      )
+               )
+      where page = #{page}
+   </select>
+   
+   
+   
+   <insert id="insertboard" parameterType="board">
+  	 	<selectKey resultType="_int" keyProperty="board_no" order="BEFORE">
+	 		select  board_tb_no_seq.nextVal from dual
+	 	</selectKey>
+		insert into publicBoard values (#{board_no}, #{board_header}, #{board_name}, #{board_content}, #{board_date},  #{board_count}, #{board_password}, #{board_writer})
+	</insert>
+   
+   <select id="selectBoardById" resultType="CodeTable">		
+		select CODEOPTION from codetable where CODEVALUE = '말머리'
+   </select> 
+   
+   <update id="updateBoardById" parameterType="board">
+		update publicBoard
+		set  
+		<!-- <selectKey resultType="_int" keyProperty="board_no" order="BEFORE">
+	 		select  board_tb_no_seq.nextVal from dual
+	 	</selectKey> -->
+			 board_no = #{board_no},
+			 board_header = #{board_header},
+			 board_name = #{board_name},
+			 board_content = #{board_content},
+			 board_date= #{board_date},
+			 board_count = #{board_count},
+			 board_password=#{board_password},
+			 board_writer = #{board_writer}
+		where board_no = #{board_no}
+	</update>
+	
+	<delete id="deleteBoardById" parameterType="_int">
+		delete from publicBoard where board_no = #{value}
+	</delete>
+	
+	<select id="selectlistById" parameterType="_int" resultType="board">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
+		from publicBoard
+		where board_no = #{value}
+	</select>
+	
+	<select id="selectBoardList" resultType="board">
+		<include refid="select-sql"/>
+	</select>
+	
+	<select id="selectSequence" resultType="_int">
+		select  board_tb_no_seq.nextVal from dual
+	</select>
+	
+	<select id="selectCountBoardCount" resultType="_int">
+		select  board_tb_no_count.nextVal from dual
+	</select> 
+	
+	<update id="updateCount" parameterType="board">
+		update publicBoard 
+		set board_count=#{board_count}+1 
+		where board_no= #{board_no}
+	</update>
+	
+	<select id="selectCountBoard" resultType="_int">
+		select count(board_no) from publicBoard
+	</select>
+	
+	<select id="selectCountBoardname" resultType="_int" parameterType="string">
+		select count(board_no) from publicBoard where board_name=#{value}
+	</select>
+	
+	<select id="selectCountBoardpassword" resultType="_int" parameterType="string">
+		select count(board_no) from publicBoard where board_writer=#{value}
+	</select>
+	
+	<select id="selectBoardbyname" parameterType="string" resultType="board">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
+		from publicBoard
+		where board_name= #{value}
+	</select>
+	
+	<select id="selectBoardbypassword" parameterType="string" resultType="board">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
+		from publicBoard
+		where board_writer= #{value}
+	</select>
+	
+   <select id="selectListPaging" resultType="board" parameterType="hashmap">
+   	select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+      from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+               from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+                       from publicBoard
+                       where board_name=#{option}
+                       order by board_no desc
+                      )
+               )
+      where page = #{page}
+   </select>
+   
+   <select id="selectListPagingwriter" resultType="board" parameterType="hashmap">
+   	select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+      from  (select ceil(rownum/#{itemPerPage}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+               from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+                       from publicBoard
+                       where board_writer=#{option}
+                       order by board_no desc
+                      )
+               )
+      where page = #{page}
+   </select>
+   
+   
+   
+   <select id="dagleQuery" parameterType="_int" resultMap="join-resultmap">
+   		<include refid="select-dept-emp-join-sql"/>	 	
+   		and p.board_no=#{value}
+   </select>
+   
+   <select id="dagleQuerylist" parameterType="_int" resultMap="join-resultmap">
+   		<include refid="select-dept-emp-join-sql"/>	 	
+   		and d.board_no=#{value}
+   </select>
+   
+   <insert id="dagleinsert" parameterType="dagle">
+   		insert into dagle values (#{board_no},#{content},#{board_date},#{board_count},#{board_writer},#{board_password})
+   </insert>
+   
+   <resultMap id="board-basic-resultmap" type="board">
+		
+		<result column = "board_no" property = "board_no"/>
+		<result column = "board_header" property ="board_header"/>
+		<result column = "board_name" property ="board_name"/>
+		<result column = "board_content" property ="board_content"/>
+		<result column = "board_date" property ="board_date"/>
+		<result column = "board_count" property ="board_count"/>
+		<result column = "board_password" property ="board_password"/>
+		<result column = "board_writer" property ="board_writer"/>
+	</resultMap>
+   
+   
+   <resultMap id="join-resultmap" type="board" extends="board-basic-resultmap">
+		<collection property="daglelist" ofType="dagle">
+			<result column = "board_no" property ="board_no"/>
+			<result column = "content" property ="content"/>
+			<result column = "board_date" property ="board_date"/>
+			<result column = "board_count" property ="board_count"/>
+			<result column = "board_writer" property ="board_writer"/>
+			<result column = "board_password" property ="board_password"/>
+			
+		</collection>
+	</resultMap>
+   
+   
+   
+   
+   
+   
+   
+   
+   <!-- 공지사항 -->
+   
+   
+   <select id="selectoperatorListPaging" resultType="operatorboard" parameterType="hashmap">
+   	select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+      from  (select ceil(rownum/#{itemPerPageoperator}) page, board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+               from(select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+                       from operatorBoard
+                       order by board_no desc
+                      )
+               )
+      where page = #{pageoperator}
+   </select>
+
+	<select id="selectoperatorList" resultType="operatorboard">
+			select board_no , board_header, board_name, board_content, board_date, board_count, board_password , board_writer
+			from operatorBoard
+	</select>
+	
+	
+	
+	
+   <insert id="operatorinsertboard" parameterType="operatorboard">
+  	 	<selectKey resultType="_int" keyProperty="board_no" order="BEFORE">
+	 		select  operator_tb_no_seq.nextVal from dual
+	 	</selectKey>
+		insert into operatorBoard values (#{board_no}, #{board_header}, #{board_name}, #{board_content}, #{board_date},  #{board_count}, #{board_password}, #{board_writer})
+	</insert>
+    
+   
+   <update id="updateoperatorById" parameterType="operatorboard">
+		update operatorBoard
+		set  
+		<!-- <selectKey resultType="_int" keyProperty="board_no" order="BEFORE">
+	 		select  board_tb_no_seq.nextVal from dual
+	 	</selectKey> -->
+			 board_no = #{board_no},
+			 board_header = #{board_header},
+			 board_name = #{board_name},
+			 board_content = #{board_content},
+			 board_date= #{board_date},
+			 board_count = #{board_count},
+			 board_password=#{board_password},
+			 board_writer = #{board_writer}
+		where board_no = #{board_no}
+	</update>
+	
+	<delete id="deleteoperatorById" parameterType="_int">
+		delete from operatorBoard where board_no = #{value}
+	</delete>
+	
+	<select id="selectoperatorlistById" parameterType="_int" resultType="operatorboard">
+		select board_no, board_header, board_name, board_content, board_date, board_count, board_password, board_writer
+		from operatorBoard
+		where board_no = #{value}
+	</select>
+	
+	<select id="operatorselectSequence" resultType="_int">
+		select  operator_tb_no_seq.nextVal from dual
+	</select>
+	
+	<select id="operatorselectCountBoardCount" resultType="_int">
+		select  operator_tb_no_count.nextVal from dual
+	</select> 
+	
+	<update id="operatorupdateCount" parameterType="operatorboard">
+		update operatorBoard 
+		set board_count=#{board_count}+1 
+		where board_no= #{board_no}
+	</update>
+	
+	<select id="selectCountoperator" resultType="_int">
+		select count(board_no) from operatorBoard
+	</select>
+	
+	<select id="selectCountoperatorname" resultType="_int" parameterType="string">
+		select count(board_no) from operatorBoard where board_name=#{value}
+	</select>
+	
+	<select id="selectCountoperatorpassword" resultType="_int" parameterType="string">
+		select count(board_no) from operatorBoard where board_password=#{value}
+	</select>
+	
+	
+	<!-- 답변게시판 -->
+	
+	<select id="selectQAList" resultType="QABoard">
+		select case when lvl=0 then no when lvl>0 then null end no , rpad('+', lvl,'+')||title title , writer , wdate
+			from qnaboard
+			order by grp desc, seq
+	</select>
+	
+	<select id="allQAList" resultType="QABoard">
+		select case when lvl=0 then no when lvl>0 then null end no,rpad('+', lvl, '+')||title title, contents, writer, wdate, grp, seq , lvl from qnaboard
+	</select>
+	
+	<insert id="insertQA" parameterType="QABoard">
+		insert into qnaboard
+		values(qnaboard_no_seq.nextval, #{title}, #{contents}, #{writer}, #{wdate}, qnaboard_no_seq.currval, seq, lvl)
+	</insert>
+	
+	<!-- 게시물의 답글  달시 수정-->
+	<update id="insertQAdagelupdate" parameterType="QABoard">
+		update qnaboard
+		set seq=seq+1
+		where grp=1 and seq>1
+	</update>
+	
+	
+	<!-- 해당게시물 조회 -->
+	<select id="selectQAId" resultType="QABoard" parameterType="_int" >
+		 select title,no,lvl, grp
+ 			from (
+ 				select case when lvl=0 then no
+   		         when lvl>0 then null end no
+				, rpad('+', lvl, '└')||title title
+				, writer
+				, wdate
+				, grp
+				, lvl
+
+				from qnaboard
+				order by grp desc, seq
+ 				) where grp=#{value} and lvl>0
+	</select>
+	
+	<select  id="selectlvl" resultType="QABoard">
+		select no, lvl, grp from 
+		qnaboard
+	</select> 
+	
+	<delete id="dagledelete" parameterType="string">
+		delete from dagle d where d.content=#{value}
+	</delete>
+	
+	<update id="dagleupdate" parameterType="dagle">
+		update dagle 
+		set content = #{content}, board_date = #{board_date} 
+		where board_password = #{board_password}
+	</update>
+	
+	<delete id="dagledeletepassword" parameterType="string">
+		delete from dagle d where d.board_password=#{value}
+	</delete>
+	
+</mapper>
+
